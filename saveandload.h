@@ -2,6 +2,7 @@
 #define SAVEANDLOAD_H
 #include <QSqlDatabase>
 #include <QSqlTableModel>
+#include <QSqlRelationalTableModel>
 #include <QSqlError>
 #include "date.h"
 #include "film.h"
@@ -47,7 +48,7 @@ public:
     QSqlDatabase& getDB();
     bool dbOpened();
     Time getTime();
-    Date getData();
+    Date getDate();
     Film getFilmByName(string name);
     vector<Film> getFilmsByDirector(string name);
     vector<Film> getFilmsByActor(string name);

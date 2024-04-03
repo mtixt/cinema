@@ -17,7 +17,7 @@ public:
     Cinema(QWidget *parent = nullptr);
     ~Cinema();
 
-    QSqlTableModel* model;
+    QSqlRelationalTableModel* model;
     QSqlDatabase db;
 
 
