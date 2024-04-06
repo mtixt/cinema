@@ -12,11 +12,11 @@ Hall::Hall(int id, int rows, int seatNums) {
     this->seatNums = seatNums;
 }
 
-void Hall::setID(int id) {
+void Hall::setId(int id) {
     this->id = id;
 }
 
-int Hall::getID() {
+int Hall::getId() {
     return this->id;
 }
 

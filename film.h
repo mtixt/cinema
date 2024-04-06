@@ -4,7 +4,7 @@
 #include "director.h"
 #include <string>
 #include <vector>
-#include <algorithm>
+// #include <algorithm>
 
 
 using std::string;
@@ -29,6 +29,7 @@ private:
 public:
     Film();
     Film(string name, string description, string genre, int duration, int rating, Director* director=nullptr, int id = -1, int pictureID=-1);
+    int getId();
     int getRating();
     void setRating(int rate);
     string getName();

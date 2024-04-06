@@ -18,5 +18,9 @@ int Statistic::getSoldAtDay(Date date) {
 }
 
 int Statistic::getSoldTotal() {
-    return soldTotal;
+    return this->soldTotal;
+}
+
+int Statistic::getId() {
+    return this->id;
 }

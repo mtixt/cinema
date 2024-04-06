@@ -1,11 +1,13 @@
 #ifndef SAVEANDLOAD_H
 #define SAVEANDLOAD_H
 #include <QSqlDatabase>
-#include <QSqlTableModel>
-#include <QSqlRelationalTableModel>
+#include <QSqlQuery>
+#include <QSqlRecord>
+#include <QSqlField>
 #include <QSqlError>
 #include "date.h"
 #include "film.h"
+#include "actor.h"
 #include "client.h"
 #include "time.h"
 #include "session.h"
@@ -26,9 +28,9 @@ private:
     void operator delete[](void*) = delete;
 
     QString databasePath;
-    vector<Film> todayFilms;
-    vector<Session> todaySessions;
-    vector<Hall> halls;
+    vector<Film*> todayFilms;
+    vector<Session*> todaySessions;
+    vector<Hall*> halls;
 
     QSqlDatabase db;
 
@@ -50,13 +52,27 @@ public:
     Time getTime();
     Date getDate();
     Film getFilmByName(string name);
-    vector<Film> getFilmsByDirector(string name);
-    vector<Film> getFilmsByActor(string name);
-    vector<Film> getAllFilms();
-    vector<Session> getSessionByDate(Date date);
-    vector<Session> getSessionByFilm(string name);
-    vector<Session> getAllSessions();
-    vector<Hall> getHalls();
+    vector<Film*> getFilmsByDirector(string name);
+    vector<Film*> getFilmsByActor(string name);
+    vector<Film*> getAllFilms();
+    vector<Session*> getSessionByDate(Date date);
+    vector<Session*> getSessionByFilm(string name);
+    vector<Session*> getAllSessions();
+    vector<Hall*> getHalls();
+    vector<Client*> getAllClients();
+    vector<Ticket*> getAllTickets();
+    Client getClientByName(string name, string lastname);
+    vector<Director*> getAllDirectors();
+    vector<Actor*> getAllActors();
+    vector<Statistic*> getAllStatistics();
+    Film* getFilmById(int id);
+    Session* getSessionById(int id);
+    Client* getClientById(int id);
+    Hall* getHallById(int id);
+    Ticket* getTicketById(int id);
+    Director* getDirectorById(int id);
+    Actor* getActorById(int id);
+    Statistic* getStatisticById(int id);
     void addFilm(string name, string description, string picID, string genre, int duration, int rating);
     void addSession(Film* film, Date date, Time time);
     void addClient(string name, string lastname, Date bday);
@@ -65,9 +81,6 @@ public:
     void addHall(int rows, int seats);
     void removeHall(int id);
     void printTicket(Ticket ticket);
-    vector<Client> getAllClients();
-    Client getClientByName(string name, string lastname);
-    vector<Director> getAllDirectors();
 };
 
 #endif // SAVEANDLOAD_H

@@ -8,7 +8,7 @@
 #include "seat.h"
 #include "ticket.h"
 #include <vector>
-#include <algorithm>
+// #include <algorithm>
 
 
 class Session {
@@ -25,8 +25,8 @@ private:
 public:
     Session(int id, Film* film, Hall* hall, Time time, Date date);
     ~Session();
-    int getID();
-    void setID(int id);
+    int getId();
+    void setId(int id);
     Film* getFilm();
     void setFilm(Film* film);
     Hall* getHall();

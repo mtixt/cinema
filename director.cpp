@@ -27,3 +27,7 @@ int Director::getSoldAtDay(Date date) {
 int Director::getSoldTotal() {
     return this->statistic.getSoldTotal();
 }
+
+int Director::getId() {
+    return this->id;
+}

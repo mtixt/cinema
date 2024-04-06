@@ -16,6 +16,7 @@ public:
     void addSoldAtDay(Date date, int amount);
     int getSoldAtDay(Date date);
     int getSoldTotal();
+    int getId();
 };
 
 #endif // STATISTIC_H

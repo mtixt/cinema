@@ -34,11 +34,11 @@ void Session::_initSpace() {
     }
 }
 
-int Session::getID() {
+int Session::getId() {
     return this->id;
 }
 
-void Session::setID(int id) {
+void Session::setId(int id) {
     this->id = id;
 }
 

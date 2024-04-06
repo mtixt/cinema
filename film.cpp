@@ -22,8 +22,12 @@ Film::Film(string name, string description, string genre, int duration, int rati
     this->pictureID = pictureID;
 }
 
+int Film::getId() {
+    return this->id;
+}
+
 int Film::getRating() {
-    return this->getRating();
+    return this->rating;
 }
 
 void Film::setRating(int rate) {

@@ -19,6 +19,7 @@ public:
     std::vector<Ticket*> getTickets();
     void setDiscount(int discount);
     void addTicket(Ticket* ticket);
+    int getId();
 };
 
 #endif // CLIENT_H

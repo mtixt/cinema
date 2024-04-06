@@ -13,17 +13,28 @@ Cinema::Cinema(QWidget *parent)
     if (sal.dbOpened()) {
         ui->statusbar->showMessage("DB opened");
 
+        QSqlQuery query = QSqlQuery(sal.getDB());
+        query.exec("SELECT * FROM films");
+
+        while (query.next()) {
+
+            qDebug() << query.record().field("name").value().toString();
+            qDebug() << query.record().field("description").value().toString();
+            // qDebug() << query.record();
+        }
+
+
         // model = new QSqlTableModel(this, sal.getDB());
-        model = new QSqlRelationalTableModel(this, sal.getDB());
+        // model = new QSqlRelationalTableModel(this, sal.getDB());
 
-        model->setTable("films");
-        model->setRelation(6, QSqlRelation("actors", "id", "name"));
-        model->setRelation(7, QSqlRelation("directors", "id", "name"));
-        model->setRelation(8, QSqlRelation("statistics", "id", "soldTotal"));
+        // model->setTable("films");
+        // model->setRelation(6, QSqlRelation("actors", "id", "name"));
+        // model->setRelation(7, QSqlRelation("directors", "id", "name"));
+        // model->setRelation(8, QSqlRelation("statistics", "id", "soldTotal"));
 
-        model->select();
+        // model->select();
 
-        ui->tableView->setModel(model);
+        // ui->tableView->setModel(model);
     }
     else {
         ui->statusbar->showMessage("ERROR! Can't load DB");
@@ -37,5 +48,5 @@ Cinema::~Cinema()
 
 void Cinema::on_addBtn_clicked()
 {
-    model->insertRow(model->rowCount());
+    // model->insertRow(model->rowCount());
 }

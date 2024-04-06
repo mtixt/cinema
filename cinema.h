@@ -17,10 +17,6 @@ public:
     Cinema(QWidget *parent = nullptr);
     ~Cinema();
 
-    QSqlRelationalTableModel* model;
-    QSqlDatabase db;
-
-
 private slots:
     void on_addBtn_clicked();
 

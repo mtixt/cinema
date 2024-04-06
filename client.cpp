@@ -28,3 +28,7 @@ void Client::addTicket(Ticket* ticket) {
     this->tickets.push_back(ticket);
     totalTicketPurchased++;
 }
+
+int Client::getId() {
+    return this->id;
+}
