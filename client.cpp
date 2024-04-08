@@ -24,6 +24,10 @@ void Client::setDiscount(int discount) {
     this->discount = discount;
 }
 
+void Client::setTotalTicketPurchased(int totalTicketPurchased) {
+    this->totalTicketPurchased = totalTicketPurchased;
+}
+
 void Client::addTicket(Ticket* ticket) {
     this->tickets.push_back(ticket);
     totalTicketPurchased++;

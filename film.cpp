@@ -3,7 +3,6 @@
 Film::Film() {
     this->name = "";
     this->description = "";
-    this->pictureID = -1;
     this->genre = "";
     this->duration = -1;
     this->rating = -1;
@@ -11,7 +10,7 @@ Film::Film() {
     Director* director = nullptr;
 }
 
-Film::Film(string name, string description, string genre, int duration, int rating, Director* director, int id, int pictureID) {
+Film::Film(string name, string description, string genre, int duration, int rating, Director* director, int id) {
     this->name = name;
     this->description = description;
     this->genre = genre;
@@ -19,7 +18,6 @@ Film::Film(string name, string description, string genre, int duration, int rati
     this->rating = rating;
     this->director = director;
     this->id = id;
-    this->pictureID = pictureID;
 }
 
 int Film::getId() {
@@ -40,14 +38,6 @@ string Film::getName() {
 
 string Film::getDescription() {
     return this->description;
-}
-
-int Film::getPictureID() {
-    return this->pictureID;
-}
-
-void Film::setPictureID(int id) {
-    this->pictureID = id;
 }
 
 void Film::setDescription(string description) {

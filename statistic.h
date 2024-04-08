@@ -2,6 +2,7 @@
 #define STATISTIC_H
 #include <map>
 #include "date.h"
+#include <string>
 
 
 class Statistic {
@@ -9,6 +10,7 @@ private:
     int id;
     int soldTotal;
     std::map<Date, int> soldByDay;
+    void _setSoldByDay(std::string soldByDay);
 
 public:
     Statistic(int id = -1);
