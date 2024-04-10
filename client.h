@@ -18,6 +18,8 @@ public:
     void autoDiscount();
     std::vector<Ticket*> getTickets();
     void setDiscount(int discount);
+    int getDiscount();
+    int getTotalTicketPurchased();
     void setTotalTicketPurchased(int totalTicketPurchased);
     void addTicket(Ticket* ticket);
     int getId();

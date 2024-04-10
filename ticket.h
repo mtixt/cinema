@@ -20,6 +20,7 @@ public:
     int getId();
     Seat* getSeat();
     Session* getSession();
+    Client* getClient();
     void setCost(int cost);
     void setSeat(Seat* seat);
     void setSession(Session* session);

@@ -40,6 +40,14 @@ string Film::getDescription() {
     return this->description;
 }
 
+string Film::getGenre() {
+    return this->genre;
+}
+
+int Film::getDuration() {
+    return this->duration;
+}
+
 void Film::setDescription(string description) {
     this->description = description;
 }
@@ -58,6 +66,10 @@ void Film::setDirector(Director* director) {
 
 Director* Film::getDirector() {
     return this->director;
+}
+
+Statistic Film::getStatistic() {
+    return this->statistic;
 }
 
 void Film::addActor(Actor* actor) {

@@ -20,8 +20,9 @@ class SaveAndLoad {
 private:
     SaveAndLoad() = default;
     ~SaveAndLoad() = default;
-    SaveAndLoad(const SaveAndLoad&)            = delete;
-    SaveAndLoad&    operator=(const SaveAndLoad&)   = delete;
+    SaveAndLoad(const SaveAndLoad&) = delete;
+
+    SaveAndLoad&    operator =(const SaveAndLoad&)  = delete;
     void*           operator new(std::size_t)       = delete;
     void*           operator new[](std::size_t)     = delete;
     void            operator delete(void*)          = delete;
@@ -58,6 +59,7 @@ private:
 
 public:
     static SaveAndLoad& init();
+
     bool                setDatabase(QString path="./cinema.db");
     QSqlDatabase&       getDB();
     bool                dbOpened();
@@ -71,6 +73,16 @@ public:
     bool loadTickets();
     bool loadDirectors();
     bool loadFilmsActors();
+
+    bool saveData();
+    bool saveFilms();
+    bool saveActors();
+    bool saveHalls();
+    bool saveClients();
+    bool saveSessions();
+    bool saveTickets();
+    bool saveDirectors();
+    bool saveFilmsActors();
 
     Time                getTime();
     Date                getDate();
@@ -101,7 +113,7 @@ public:
     void addSession(Film* film, Hall* hall, Time time, Date date, int id = -1);
     void addClient(string name, string lastname, Date bday, int id = -1);
     void addActor(string name, string lastname, Date bday, int id = -1);
-    void addDirector(string name, string lastname, Date bday, int id = -1);
+    void addDirector(string name, string lastname, Date& bday, int id = -1);
     void addHall(int rows, int seats, int id = -1);
     void removeHall(int id);
     void printTicket(Ticket ticket);

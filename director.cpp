@@ -1,6 +1,6 @@
 #include "director.h"
 
-Director::Director(std::string name, std::string lastname, Date birthday, int id) : Human(name, lastname, birthday) {
+Director::Director(std::string name, std::string lastname, Date& birthday, int id) : Human(name, lastname, birthday) {
     this->id = id;
 }
 
@@ -30,4 +30,8 @@ int Director::getSoldTotal() {
 
 int Director::getId() {
     return this->id;
+}
+
+Statistic Director::getStatistic() {
+    return this->statistic;
 }

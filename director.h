@@ -14,7 +14,7 @@ private:
     std::vector<Film*> films;
 
 public:
-    Director(std::string name, std::string lastname, Date birthday, int id = -1);
+    Director(std::string name, std::string lastname, Date& birthday, int id = -1);
     std::vector<Film*> getFilms();
     void addFilm(Film* film);
     void setSoldAtDay(Date date, int sold);
@@ -22,6 +22,7 @@ public:
     int getSoldAtDay(Date date);
     int getSoldTotal();
     int getId();
+    Statistic getStatistic();
 };
 
 #endif // DIRECTOR_H

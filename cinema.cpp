@@ -15,8 +15,17 @@ Cinema::Cinema(QWidget *parent)
 
         sal.loadData();
 
-        for (auto film : sal.getAllFilms())
+        for (auto film : sal.getAllFilms()) {
+            // film->setDirector(sal.getAllDirectors()[0]);
             qDebug() << film->getName();
+        }
+
+        for (auto dir : sal.getAllDirectors()) {
+            qDebug() << dir->getId();
+        }
+
+        sal.saveFilms();
+
     }
     else {
         ui->statusbar->showMessage("ERROR! Can't load DB");

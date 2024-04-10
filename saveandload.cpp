@@ -25,6 +25,200 @@ QSqlDatabase& SaveAndLoad::getDB() {
     return this->db;
 }
 
+bool SaveAndLoad::saveData() {
+    //  Save data to DB and delete objects
+
+    if (this->saveHalls()
+        && this->saveClients()
+        && this->saveDirectors()
+        && this->saveFilms()
+        && this->saveActors()
+        && this->saveFilmsActors()
+        && this->saveSessions()
+        && this->saveTickets()
+        ){
+        return true;
+    }
+
+    return false;
+}
+
+bool SaveAndLoad::saveFilms() {
+    QSqlQuery query = QSqlQuery(this->getDB());
+    query.exec("DELETE FROM films");
+
+    // query = QSqlQuery(this->getDB());
+    query.prepare("INSERT INTO films (id, name, description, genre, duration, rating, director, statistic) "
+               "VALUES (:id, :name, :description, :genre, :duration, :rating, :director, :statistic)");
+
+    for (auto film : this->films){
+        query.bindValue(":id", film->getId());
+        query.bindValue(":name", film->getName().c_str());
+        query.bindValue(":description", film->getDescription().c_str());
+        query.bindValue(":genre", film->getGenre().c_str());
+        query.bindValue(":duration", film->getDuration());
+        query.bindValue(":rating", film->getRating());
+        query.bindValue(":statistic", film->getStatistic().getId());
+
+        if (film->getDirector())
+            query.bindValue(":director", film->getDirector()->getId());
+
+        query.exec();
+    }
+
+    return true;
+}
+
+bool SaveAndLoad::saveActors() {
+    QSqlQuery query = QSqlQuery(this->getDB());
+    query.exec("DELETE FROM actors");
+
+    // query = QSqlQuery(this->getDB());
+    query.prepare("INSERT INTO actors (id, name, lastname, birthday, birthmonth, birthyear) "
+                  "VALUES (:id, :name, :lastname, :birthday, :birthmonth, :birthyear)");
+
+    for (auto actor : this->actors){
+        query.bindValue(":id", actor->getId());
+        query.bindValue(":name", actor->getName().c_str());
+        query.bindValue(":lastname", actor->getLastname().c_str());
+        query.bindValue(":birthday", actor->getBirthday().getDay());
+        query.bindValue(":birthmonth", actor->getBirthday().getMonth());
+        query.bindValue(":birthyear", actor->getBirthday().getYear());
+        query.exec();
+    }
+
+    return true;
+}
+
+bool SaveAndLoad::saveHalls() {
+    QSqlQuery query = QSqlQuery(this->getDB());
+    query.exec("DELETE FROM halls");
+
+    // query = QSqlQuery(this->getDB());
+    query.prepare("INSERT INTO halls (id, rows, seatNums, genre, duration, rating, director, statistic) "
+                  "VALUES (:id, :rows, :seatNums, :genre, :duration, :rating, :director, :statistic)");
+
+    for (auto hall : this->halls){
+        query.bindValue(":id", hall->getId());
+        query.bindValue(":rows", hall->getRows());
+        query.bindValue(":seatNums", hall->getNums());
+        query.exec();
+    }
+
+    return true;
+}
+
+bool SaveAndLoad::saveClients() {
+    QSqlQuery query = QSqlQuery(this->getDB());
+    query.exec("DELETE FROM clients");
+
+    // query = QSqlQuery(this->getDB());
+    query.prepare("INSERT INTO clients (id, name, lastname, discount, totalTicketPurchased, birthday, birthmonth, birthyear) "
+                  "VALUES (:id, :name, :lastname, :discount, :totalTicketPurchased, :birthday, :birthmonth, :birthyear)");
+
+    for (auto client : this->clients){
+        query.bindValue(":id", client->getId());
+        query.bindValue(":name", client->getName().c_str());
+        query.bindValue(":lastname", client->getLastname().c_str());
+        query.bindValue(":discount", client->getDiscount());
+        query.bindValue(":totalTicketPurchased", client->getTotalTicketPurchased());
+        query.bindValue(":birthday", client->getBirthday().getDay());
+        query.bindValue(":birthmonth", client->getBirthday().getMonth());
+        query.bindValue(":birthyear", client->getBirthday().getYear());
+        query.exec();
+    }
+
+    return true;
+}
+
+bool SaveAndLoad::saveSessions() {
+    QSqlQuery query = QSqlQuery(this->getDB());
+    query.exec("DELETE FROM sessions");
+
+    // query = QSqlQuery(this->getDB());
+    query.prepare("INSERT INTO sessions (id, film, hall, hours, minutes, day, month, year) "
+                  "VALUES (:id, :film, :hall, :hours, :minutes, :day, :month, :year)");
+
+    for (auto session : this->sessions){
+        query.bindValue(":id", session->getId());
+        query.bindValue(":film", session->getFilm()->getId());
+        query.bindValue(":hall", session->getHall()->getId());
+        query.bindValue(":hours", session->getTime().getHours());
+        query.bindValue(":minutes", session->getTime().getMinutes());
+        query.bindValue(":day", session->getDate().getDay());
+        query.bindValue(":month", session->getDate().getMonth());
+        query.bindValue(":year", session->getDate().getYear());
+        query.exec();
+    }
+
+    return true;
+}
+
+bool SaveAndLoad::saveTickets() {
+    QSqlQuery query = QSqlQuery(this->getDB());
+    query.exec("DELETE FROM tickets");
+
+    // query = QSqlQuery(this->getDB());
+    query.prepare("INSERT INTO tickets (id, cost, seatRow, seatNum, session, client) "
+                  "VALUES (:id, :cost, :seatRow, :seatNum, :session, :client)");
+
+    for (auto ticket : this->tickets){
+        query.bindValue(":id", ticket->getId());
+        query.bindValue(":cost", ticket->getCost());
+        query.bindValue(":seatRow", ticket->getSeat()->getRow());
+        query.bindValue(":seatNum", ticket->getSeat()->getNum());
+        query.bindValue(":session", ticket->getSession()->getId());
+
+        if (ticket->getClient())
+            query.bindValue(":client", ticket->getClient()->getId());
+
+        query.exec();
+    }
+
+    return true;
+}
+
+bool SaveAndLoad::saveDirectors() {
+    QSqlQuery query = QSqlQuery(this->getDB());
+    query.exec("DELETE FROM directors");
+
+    // query = QSqlQuery(this->getDB());
+    query.prepare("INSERT INTO directors (id, name, lastname, birthday, birthmonth, birthyear, statistic) "
+                  "VALUES (:id, :name, :lastname, :birthday, :birthmonth, :birthyear, :statistic)");
+
+    for (auto director : this->directors){
+        query.bindValue(":id", director->getId());
+        query.bindValue(":name", director->getName().c_str());
+        query.bindValue(":lastname", director->getLastname().c_str());
+        query.bindValue(":birthday", director->getBirthday().getDay());
+        query.bindValue(":birthmonth", director->getBirthday().getMonth());
+        query.bindValue(":birthyear", director->getBirthday().getYear());
+        query.bindValue(":statistic", director->getStatistic().getId());
+        query.exec();
+    }
+
+    return true;
+}
+
+bool SaveAndLoad::saveFilmsActors() {
+    QSqlQuery query = QSqlQuery(this->getDB());
+    query.exec("DELETE FROM films_actors");
+
+    // query = QSqlQuery(this->getDB());
+    query.prepare("INSERT INTO films_actors (fk_flm, fk_actor) "
+                  "VALUES (:fk_flm, :fk_actor)");
+
+    for (auto film : this->films){
+        for (auto actor : film->getActors()) {
+            query.bindValue(":fk_flm", film->getId());
+            query.bindValue(":fk_actor", actor->getId());
+            query.exec();
+        }
+    }
+
+    return true;
+}
+
 bool SaveAndLoad::loadData() {
     //  Load data from DB and create objects
     if (this->loadHalls()
@@ -134,19 +328,20 @@ bool SaveAndLoad::loadDirectors() {
         int statId      = query.record().field("statistic").value().toInt();
 
         Date bdate(birthday, birthmonth, birthyear);
+        this->addDirector(name, lastname, bdate, id);
 
-        QSqlQuery query2 = QSqlQuery(this->getDB());
-        query2.exec(QString("SELECT * FROM statistics WHERE id = %1").arg(statId));
+        // QSqlQuery query2 = QSqlQuery(this->getDB());
+        // query2.exec(QString("SELECT * FROM statistics WHERE id = %1").arg(statId));
 
-        if (query2.next()) {
-            int soldTotal = query.record().field("soldTotal").value().toInt();
-            string soldByDay = query.record().field("soldByDay").value().toString().toStdString();
+        // if (query2.next()) {
+        //     int soldTotal = query.record().field("soldTotal").value().toInt();
+        //     string soldByDay = query.record().field("soldByDay").value().toString().toStdString();
 
-            this->_addDirector(name, lastname, bdate, id, soldTotal, soldByDay);
-        }
-        else {
-            this->addDirector(name, lastname, bdate, id);
-        }
+        //     this->_addDirector(name, lastname, bdate, id, soldTotal, soldByDay);
+        // }
+        // else {
+        //     this->addDirector(name, lastname, bdate, id);
+        // }
     }
 
     return true;
@@ -393,7 +588,7 @@ void SaveAndLoad::addActor(string name, string lastname, Date bday, int id) {
     this->actors.push_back(newActor);
 }
 
-void SaveAndLoad::addDirector(string name, string lastname, Date bday, int id) {
+void SaveAndLoad::addDirector(string name, string lastname, Date& bday, int id) {
     if (id == -1) {
         id = this->directors.size();
     }

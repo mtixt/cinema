@@ -32,6 +32,10 @@ Session* Ticket::getSession(){
     return this->session;
 }
 
+Client* Ticket::getClient(){
+    return this->client;
+}
+
 void Ticket::setCost(int cost){
     this->cost = cost;
 }

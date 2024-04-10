@@ -33,11 +33,14 @@ public:
     void setRating(int rate);
     string getName();
     string getDescription();
+    string getGenre();
+    int getDuration();
     void setDescription(string description);
     void setName(string name);
     vector<Actor*> getActors();
     void setDirector(Director* director);
     Director* getDirector();
+    Statistic getStatistic();
     void addActor(Actor* actor);
     void delActor(Actor* actor);
     void setSoldAtDay(Date date, int sold);

@@ -20,6 +20,14 @@ std::vector<Ticket*> Client::getTickets() {
     return this->tickets;
 }
 
+int Client::getDiscount() {
+    return this->discount;
+}
+
+int Client::getTotalTicketPurchased() {
+    return this->totalTicketPurchased;
+}
+
 void Client::setDiscount(int discount) {
     this->discount = discount;
 }
