@@ -1,6 +1,6 @@
 #include "human.h"
 
-Human::Human(std::string name, std::string lastname, Date birthday) {
+Human::Human(std::string name, std::string lastname, Date& birthday) {
     setName(name);
     setLastname(lastname);
     setBirthday(birthday);
@@ -25,6 +25,6 @@ void Human::setLastname(std::string lastname) {
     this->lastname = lastname;
 }
 
-void Human::setBirthday(Date birthday) {
+void Human::setBirthday(Date& birthday) {
     this->birthday.setDate(birthday);
 }

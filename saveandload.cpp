@@ -58,7 +58,9 @@ bool SaveAndLoad::saveFilms() {
         query.bindValue(":genre", film->getGenre().c_str());
         query.bindValue(":duration", film->getDuration());
         query.bindValue(":rating", film->getRating());
-        query.bindValue(":statistic", film->getStatistic().getId());
+
+        if (!(film->getStatistic().getId() < 0))
+            query.bindValue(":statistic", film->getStatistic().getId());
 
         if (film->getDirector())
             query.bindValue(":director", film->getDirector()->getId());
@@ -204,13 +206,12 @@ bool SaveAndLoad::saveFilmsActors() {
     QSqlQuery query = QSqlQuery(this->getDB());
     query.exec("DELETE FROM films_actors");
 
-    // query = QSqlQuery(this->getDB());
-    query.prepare("INSERT INTO films_actors (fk_flm, fk_actor) "
-                  "VALUES (:fk_flm, :fk_actor)");
+    query.prepare("INSERT INTO films_actors (fk_film, fk_actor) "
+                  "VALUES (:fk_film, :fk_actor)");
 
     for (auto film : this->films){
         for (auto actor : film->getActors()) {
-            query.bindValue(":fk_flm", film->getId());
+            query.bindValue(":fk_film", film->getId());
             query.bindValue(":fk_actor", actor->getId());
             query.exec();
         }
@@ -328,20 +329,19 @@ bool SaveAndLoad::loadDirectors() {
         int statId      = query.record().field("statistic").value().toInt();
 
         Date bdate(birthday, birthmonth, birthyear);
-        this->addDirector(name, lastname, bdate, id);
 
-        // QSqlQuery query2 = QSqlQuery(this->getDB());
-        // query2.exec(QString("SELECT * FROM statistics WHERE id = %1").arg(statId));
+        QSqlQuery query2 = QSqlQuery(this->getDB());
+        query2.exec(QString("SELECT * FROM statistics WHERE id = %1").arg(statId));
 
-        // if (query2.next()) {
-        //     int soldTotal = query.record().field("soldTotal").value().toInt();
-        //     string soldByDay = query.record().field("soldByDay").value().toString().toStdString();
+        if (query2.next()) {
+            int soldTotal = query.record().field("soldTotal").value().toInt();
+            string soldByDay = query.record().field("soldByDay").value().toString().toStdString();
 
-        //     this->_addDirector(name, lastname, bdate, id, soldTotal, soldByDay);
-        // }
-        // else {
-        //     this->addDirector(name, lastname, bdate, id);
-        // }
+            this->_addDirector(name, lastname, bdate, id, soldTotal, soldByDay);
+        }
+        else {
+            this->addDirector(name, lastname, bdate, id);
+        }
     }
 
     return true;
@@ -627,17 +627,11 @@ void SaveAndLoad::printTicket(Ticket ticket) {
 }
 
 vector<Client*> SaveAndLoad::getAllClients() {
-    vector<Client*> clients;
-
-
-    return clients;
+    return this->clients;
 }
 
 vector<Ticket*> SaveAndLoad::getAllTickets() {
-    vector<Ticket*> tickets;
-
-
-    return tickets;
+    return this->tickets;
 }
 
 Client SaveAndLoad::getClientByName(string name, string lastname) {
@@ -647,24 +641,15 @@ Client SaveAndLoad::getClientByName(string name, string lastname) {
 }
 
 vector<Director*> SaveAndLoad::getAllDirectors() {
-    vector<Director*> directors;
-
-
-    return directors;
+    return this->directors;
 }
 
 vector<Actor*> SaveAndLoad::getAllActors() {
-    vector<Actor*> actors;
-
-
-    return actors;
+    return this->actors;
 }
 
 vector<Statistic*> SaveAndLoad::getAllStatistics() {
-    vector<Statistic*> statistics;
-
-
-    return statistics;
+    return this->statistics;
 }
 
 
@@ -756,7 +741,7 @@ Actor* SaveAndLoad::getActorById(int id) {
     Actor* result = nullptr;
     auto actors = this->getAllActors();
 
-    for (auto actor: actors) {
+    for (auto actor : actors) {
         if (actor->getId() == id) {
             result = actor;
             break;

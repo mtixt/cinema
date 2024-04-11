@@ -18,7 +18,11 @@ public:
     ~Cinema();
 
 private slots:
-    void on_addBtn_clicked();
+    void on_filmsButton_clicked();
+
+    void on_actorsButton_clicked();
+
+    void on_homeButton_clicked();
 
 private:
     Ui::Cinema *ui;
