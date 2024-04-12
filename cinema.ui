@@ -75,90 +75,6 @@
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="addButton">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>0</y>
-         <width>42</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>42</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>42</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Add</string>
-       </property>
-       <property name="flat">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="editButon">
-       <property name="geometry">
-        <rect>
-         <x>100</x>
-         <y>0</y>
-         <width>42</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>42</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>42</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Edit</string>
-       </property>
-       <property name="flat">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="deleteButton">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>0</y>
-         <width>42</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>42</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>42</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Delete</string>
-       </property>
-       <property name="flat">
-        <bool>true</bool>
-       </property>
-      </widget>
      </widget>
     </item>
     <item>
@@ -170,7 +86,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="actorsPage">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -188,6 +104,23 @@
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QScrollArea" name="actorsScrollArea">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="actorsScrollAreaWidget">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>620</width>
+             <height>358</height>
+            </rect>
+           </property>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -303,6 +236,23 @@
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QScrollArea" name="filmsScrollArea">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="filmsScrollAreaWidget">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>66</width>
+             <height>16</height>
+            </rect>
+           </property>
+          </widget>
          </widget>
         </item>
        </layout>

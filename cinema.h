@@ -26,5 +26,6 @@ private slots:
 
 private:
     Ui::Cinema *ui;
+    SaveAndLoad& sal = SaveAndLoad::init();
 };
 #endif // CINEMA_H

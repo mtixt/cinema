@@ -29,14 +29,21 @@ bool SaveAndLoad::saveData() {
     //  Save data to DB and delete objects
 
     if (this->saveHalls()
-        && this->saveClients()
-        && this->saveDirectors()
-        && this->saveFilms()
-        && this->saveActors()
-        && this->saveFilmsActors()
-        && this->saveSessions()
-        && this->saveTickets()
-        ){
+            && this->saveClients()
+            && this->saveDirectors()
+            && this->saveFilms()
+            && this->saveActors()
+            && this->saveFilmsActors()
+            && this->saveSessions()
+            && this->saveTickets()
+        ) {
+        for (auto film : this->films) delete film;
+        for (auto actor : this->actors) delete actor;
+        for (auto director : this->directors) delete director;
+        for (auto ticket : this->tickets) delete ticket;
+        for (auto hall : this->halls) delete hall;
+        for (auto session : this->sessions) delete session;
+
         return true;
     }
 
