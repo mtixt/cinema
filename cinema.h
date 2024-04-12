@@ -2,6 +2,7 @@
 #define CINEMA_H
 
 #include <QMainWindow>
+#include <QButtonGroup>
 #include "saveandload.h"
 
 
@@ -24,8 +25,12 @@ private slots:
 
     void on_homeButton_clicked();
 
+    void on_film_clicked(int id);
+    void on_edit_clicked(int id);
+
 private:
     Ui::Cinema *ui;
     SaveAndLoad& sal = SaveAndLoad::init();
+    QButtonGroup* filmButtonsGroup;
 };
 #endif // CINEMA_H

@@ -1,6 +1,7 @@
 #include "cinema.h"
 #include "./ui_cinema.h"
 #include <QString>
+#include <QButtonGroup>
 
 Cinema::Cinema(QWidget *parent)
     : QMainWindow(parent)
@@ -9,7 +10,8 @@ Cinema::Cinema(QWidget *parent)
     ui->setupUi(this);
 
     ui->pages->setCurrentWidget(ui->mainPage);
-    ui->toolButtons->setDisabled(true);
+    ui->headerToolButtons->setDisabled(true);
+    ui->bottomToolButtons->hide();
 
     sal.setDatabase("C:\\Users\\gshtanchaev\\std\\oop\\Cinema\\cinemadb.db");
 
@@ -37,22 +39,46 @@ Cinema::~Cinema()
 void Cinema::on_filmsButton_clicked()
 {
     ui->pages->setCurrentWidget(ui->filmsPage);
-    ui->toolButtons->setEnabled(true);
+    ui->headerToolButtons->setEnabled(true);
+    ui->bottomToolButtons->show();
+
+    QVBoxLayout* filmsPageLayout = new QVBoxLayout(ui->filmsPage);
+
+    QLabel* filmsLabel = new QLabel("Фильмы", ui->filmsPage);
+    filmsLabel->setFont(QFont("Segoe UI", 20, QFont::Bold));
+    filmsLabel->setAlignment(Qt::Alignment(Qt::AlignCenter));
+
+    QScrollArea* filmsScrollArea = new QScrollArea(ui->filmsPage);
+    filmsScrollArea->setWidgetResizable(true);
+
+    QWidget* filmsScrollAreaWidget = new QWidget();
+    filmsScrollArea->setWidget(filmsScrollAreaWidget);
+
+    filmsPageLayout->addWidget(filmsLabel);
+    filmsPageLayout->addWidget(filmsScrollArea);
 
     // Layout для равномерного заполнения
-    QVBoxLayout* filmsScrollAreaLayout = new QVBoxLayout(ui->filmsScrollAreaWidget);
+    QVBoxLayout* filmsScrollAreaLayout = new QVBoxLayout(filmsScrollAreaWidget);
     // Spacer для заполнения нижней части, чтоб виджеты фильмов не растягивались на всю высоту
     QSpacerItem* filmsScrollSpaser = new QSpacerItem(100, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+    filmButtonsGroup = new QButtonGroup(ui->filmsPage);
+    connect(filmButtonsGroup, SIGNAL(buttonClicked(int)), this, SLOT(on_film_clicked(int)));
 
     for (auto film : sal.getAllFilms()) {
         // Создание виджетов и добавление их в ScrollArea
 
-        QFrame *filmWidget = new QFrame();
-        filmWidget->setFixedHeight(80);
-        filmWidget->setFrameStyle(QFrame::Plain);
-        filmWidget->setFrameShape(QFrame::StyledPanel);
+        // Film Widget
+        // QFrame *filmWidget = new QFrame();
+        QPushButton *filmWidget = new QPushButton();
+        filmWidget->setFixedHeight(100);
+        filmWidget->setFlat(true);
+        filmWidget->setCheckable(true);
 
-        // QVBoxLayout* filmLayout = new QVBoxLayout(filmWidget);
+        // filmWidget->setFrameStyle(QFrame::Plain);
+        // filmWidget->setFrameShape(QFrame::StyledPanel);
+
+
         QGridLayout* filmLayout = new QGridLayout(filmWidget);
 
         // Film name
@@ -64,7 +90,6 @@ void Cinema::on_filmsButton_clicked()
         filmDescLabel->setFont(QFont("Arial", 10));
         filmDescLabel->setMaximumWidth(860);
         filmDescLabel->setWordWrap(true);
-        // filmDescLabel->setBaseSize(600, 40);
 
         // Film rating
         QLabel* filmRatingLabel = new QLabel(QString("%1").arg(film->getRating()));
@@ -72,12 +97,13 @@ void Cinema::on_filmsButton_clicked()
         filmRatingLabel->setAlignment(Qt::Alignment(Qt::AlignRight));
         filmRatingLabel->setStyleSheet("QLabel { color : green; }");
 
-
+        // Компановка
         filmLayout->addWidget(filmNameLabel, 1, 1);
         filmLayout->addWidget(filmDescLabel, 2, 1, 2, 3);
         filmLayout->addWidget(filmRatingLabel, 1, 3);
 
         filmsScrollAreaLayout->addWidget(filmWidget);
+        filmButtonsGroup->addButton(filmWidget);
     }
 
     filmsScrollAreaLayout->addItem(filmsScrollSpaser);
@@ -87,7 +113,9 @@ void Cinema::on_filmsButton_clicked()
 void Cinema::on_actorsButton_clicked()
 {
     ui->pages->setCurrentWidget(ui->actorsPage);
-    ui->toolButtons->setEnabled(true);
+    ui->headerToolButtons->setEnabled(true);
+    ui->bottomToolButtons->show();
+
 
     // Layout для равномерного заполнения
     QVBoxLayout* actorsScrollAreaLayout = new QVBoxLayout(ui->actorsScrollAreaWidget);
@@ -115,7 +143,26 @@ void Cinema::on_actorsButton_clicked()
 
 void Cinema::on_homeButton_clicked()
 {
+    // Удаляем элементы с предыдущей страницы
+    for (auto child : ui->pages->currentWidget()->children())
+        delete child;
+
     ui->pages->setCurrentWidget(ui->mainPage);
-    ui->toolButtons->setDisabled(true);
+    ui->headerToolButtons->setDisabled(true);
+    ui->bottomToolButtons->hide();
+}
+
+void Cinema::on_film_clicked(int id)
+{
+
+    for(int buttonId = 0; buttonId < sal.getAllFilms().size(); ++buttonId) {
+        if(buttonId != id)
+            filmButtonsGroup->button(buttonId)->setChecked(false);
+    }
+}
+
+void Cinema::on_edit_clicked(int id)
+{
+
 }
 
