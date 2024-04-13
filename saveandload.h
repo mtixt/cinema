@@ -41,17 +41,6 @@ private:
     vector<Ticket*>     tickets;
     vector<Session*>    sessions;
     vector<Director*>   directors;
-    vector<Statistic*>  statistics;
-
-    // id инкременты для каждого объекта
-    int sessionid;
-    int filmid;
-    int ticketid;
-    int clientid;
-    int directorid;
-    int actorid;
-    int statisticid;
-    int hallid;
 
     bool _addClient(string name, string lastname, Date bday, int id, int totalTicketPurchased, int discount);
     bool _addDirector(string name, string lastname, Date bday, int id, int soldTotal, string soldByDay);
@@ -99,7 +88,6 @@ public:
     Client              getClientByName(string name, string lastname);
     vector<Director*>   getAllDirectors();
     vector<Actor*>      getAllActors();
-    vector<Statistic*>  getAllStatistics();
     Film*               getFilmById(int id);
     Session*            getSessionById(int id);
     Client*             getClientById(int id);
@@ -107,14 +95,21 @@ public:
     Ticket*             getTicketById(int id);
     Director*           getDirectorById(int id);
     Actor*              getActorById(int id);
-    Statistic*          getStatisticById(int id);
 
-    void addFilm(string name, string description, string genre, int duration, int rating, Director* director = nullptr, int id = -1);
-    void addSession(Film* film, Hall* hall, Time time, Date date, int id = -1);
-    void addClient(string name, string lastname, Date bday, int id = -1);
-    void addActor(string name, string lastname, Date bday, int id = -1);
-    void addDirector(string name, string lastname, Date& bday, int id = -1);
-    void addHall(int rows, int seats, int id = -1);
+    Film* addFilm(string name, string description, string genre, int duration, int rating, Director* director = nullptr, int id = -1);
+    Session* addSession(Film* film, Hall* hall, Time time, Date date, int id = -1);
+    Client* addClient(string name, string lastname, Date bday, int id = -1);
+    Actor* addActor(string name, string lastname, Date bday, int id = -1);
+    Director* addDirector(string name, string lastname, Date& bday, int id = -1);
+    Hall* addHall(int rows, int seats, int id = -1);
+
+    void delFilm(int id);
+    void delSession(int id);
+    void delActor(int id);
+    void delClient(int id);
+    void delDirector(int id);
+    void delHall(int id);
+
     void removeHall(int id);
     void printTicket(Ticket ticket);
 };

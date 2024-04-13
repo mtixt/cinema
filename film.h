@@ -1,6 +1,5 @@
 #ifndef FILM_H
 #define FILM_H
-#include "statistic.h"
 #include "director.h"
 #include <string>
 #include <vector>
@@ -23,7 +22,6 @@ private:
     int rating;
     vector<Actor*> actors;
     Director* director;
-    Statistic statistic;
 
 public:
     Film();
@@ -31,22 +29,20 @@ public:
     int getId();
     int getRating();
     void setRating(int rate);
+    void setDuration(int duration);
     string getName();
     string getDescription();
     string getGenre();
     int getDuration();
     void setDescription(string description);
     void setName(string name);
+    void setGenre(string genre);
     vector<Actor*> getActors();
     void setDirector(Director* director);
     Director* getDirector();
-    Statistic getStatistic();
     void addActor(Actor* actor);
     void delActor(Actor* actor);
-    void setSoldAtDay(Date date, int sold);
-    void addSoldAtDay(Date date, int amount);
-    int getSoldAtDay(Date date);
-    int getSoldTotal();
+    void clearActors();
 };
 
 

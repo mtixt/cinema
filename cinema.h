@@ -4,6 +4,11 @@
 #include <QMainWindow>
 #include <QButtonGroup>
 #include "saveandload.h"
+#include "filmspage.h"
+#include "filmview.h"
+#include "filmedit.h"
+#include "actorspage.h"
+#include "actorview.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -25,12 +30,24 @@ private slots:
 
     void on_homeButton_clicked();
 
-    void on_film_clicked(int id);
-    void on_edit_clicked(int id);
+    void on_editButton_clicked();
+
+    void on_viewButton_clicked();
+
+    void on_addButton_clicked();
+
+    void on_deleteButton_clicked();
 
 private:
     Ui::Cinema *ui;
+
+    FilmsPage* filmsPage;
+    FilmView* filmView;
+    FilmEdit* filmEdit;
+
+    ActorsPage* actorsPage;
+    ActorView* actorView;
+
     SaveAndLoad& sal = SaveAndLoad::init();
-    QButtonGroup* filmButtonsGroup;
 };
 #endif // CINEMA_H

@@ -32,12 +32,16 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ticket.h ticket.cpp
         director.h director.cpp
         film.h film.cpp
-        statistic.h statistic.cpp
         actor.h actor.cpp
         seat.h seat.cpp
         session.h session.cpp
         hall.h hall.cpp
         saveandload.h saveandload.cpp
+        filmspage.h filmspage.cpp
+        filmview.h filmview.cpp filmview.ui
+        filmedit.h filmedit.cpp filmedit.ui
+        actorspage.h actorspage.cpp
+        actorview.h actorview.cpp actorview.ui
 
 
     )

@@ -55,8 +55,8 @@ bool SaveAndLoad::saveFilms() {
     query.exec("DELETE FROM films");
 
     // query = QSqlQuery(this->getDB());
-    query.prepare("INSERT INTO films (id, name, description, genre, duration, rating, director, statistic) "
-               "VALUES (:id, :name, :description, :genre, :duration, :rating, :director, :statistic)");
+    query.prepare("INSERT INTO films (id, name, description, genre, duration, rating, director) "
+               "VALUES (:id, :name, :description, :genre, :duration, :rating, :director)");
 
     for (auto film : this->films){
         query.bindValue(":id", film->getId());
@@ -65,9 +65,6 @@ bool SaveAndLoad::saveFilms() {
         query.bindValue(":genre", film->getGenre().c_str());
         query.bindValue(":duration", film->getDuration());
         query.bindValue(":rating", film->getRating());
-
-        if (!(film->getStatistic().getId() < 0))
-            query.bindValue(":statistic", film->getStatistic().getId());
 
         if (film->getDirector())
             query.bindValue(":director", film->getDirector()->getId());
@@ -103,9 +100,8 @@ bool SaveAndLoad::saveHalls() {
     QSqlQuery query = QSqlQuery(this->getDB());
     query.exec("DELETE FROM halls");
 
-    // query = QSqlQuery(this->getDB());
-    query.prepare("INSERT INTO halls (id, rows, seatNums, genre, duration, rating, director, statistic) "
-                  "VALUES (:id, :rows, :seatNums, :genre, :duration, :rating, :director, :statistic)");
+    query.prepare("INSERT INTO halls (id, rows, seatNums) "
+                  "VALUES (:id, :rows, :seatNums)");
 
     for (auto hall : this->halls){
         query.bindValue(":id", hall->getId());
@@ -192,8 +188,8 @@ bool SaveAndLoad::saveDirectors() {
     query.exec("DELETE FROM directors");
 
     // query = QSqlQuery(this->getDB());
-    query.prepare("INSERT INTO directors (id, name, lastname, birthday, birthmonth, birthyear, statistic) "
-                  "VALUES (:id, :name, :lastname, :birthday, :birthmonth, :birthyear, :statistic)");
+    query.prepare("INSERT INTO directors (id, name, lastname, birthday, birthmonth, birthyear) "
+                  "VALUES (:id, :name, :lastname, :birthday, :birthmonth, :birthyear)");
 
     for (auto director : this->directors){
         query.bindValue(":id", director->getId());
@@ -202,7 +198,7 @@ bool SaveAndLoad::saveDirectors() {
         query.bindValue(":birthday", director->getBirthday().getDay());
         query.bindValue(":birthmonth", director->getBirthday().getMonth());
         query.bindValue(":birthyear", director->getBirthday().getYear());
-        query.bindValue(":statistic", director->getStatistic().getId());
+
         query.exec();
     }
 
@@ -260,21 +256,10 @@ bool SaveAndLoad::loadFilms() {
         int duration        = query.record().field("duration").value().toInt();
         int rating          = query.record().field("rating").value().toInt();
         int directorId      = query.record().field("director").value().toInt();
-        int statisticId     = query.record().field("statistic").value().toInt();
 
         Director* director = this->getDirectorById(directorId);
 
-        QSqlQuery query2 = QSqlQuery(this->getDB());
-        query2.exec(QString("SELECT * FROM statistics WHERE id = %1").arg(statisticId));
-
-        if (query2.next()) {
-            string soldByDay = query.record().field("soldByDay").value().toString().toStdString();
-
-            this->_addFilm(name, description, genre, duration, rating, soldByDay, director, id);
-        }
-        else {
-            this->addFilm(name, description, genre, duration, rating, director, id);
-        }
+        this->addFilm(name, description, genre, duration, rating, director, id);
     }
 
     return true;
@@ -333,22 +318,10 @@ bool SaveAndLoad::loadDirectors() {
         int birthyear   = query.record().field("birthyear").value().toInt();
         string name     = query.record().field("name").value().toString().toStdString();
         string lastname = query.record().field("lastname").value().toString().toStdString();
-        int statId      = query.record().field("statistic").value().toInt();
 
         Date bdate(birthday, birthmonth, birthyear);
 
-        QSqlQuery query2 = QSqlQuery(this->getDB());
-        query2.exec(QString("SELECT * FROM statistics WHERE id = %1").arg(statId));
-
-        if (query2.next()) {
-            int soldTotal = query.record().field("soldTotal").value().toInt();
-            string soldByDay = query.record().field("soldByDay").value().toString().toStdString();
-
-            this->_addDirector(name, lastname, bdate, id, soldTotal, soldByDay);
-        }
-        else {
-            this->addDirector(name, lastname, bdate, id);
-        }
+        this->addDirector(name, lastname, bdate, id);
     }
 
     return true;
@@ -387,6 +360,7 @@ bool SaveAndLoad::loadFilmsActors() {
             int filmId = query.record().field("fk_film").value().toInt();
             Film* film = this->getFilmById(filmId);
             actor->addFilm(film);
+            film->addActor(actor);
         }
     }
 
@@ -535,7 +509,7 @@ vector<Hall*> SaveAndLoad::getHalls() {
 bool SaveAndLoad::_addFilm(string name, string description, string genre, int duration, int rating, string soldByDay, Director* director, int id) {
 
     if (id == -1) {
-        id = this->films.size();
+        id = this->films.size() + 1;
     }
 
     Film* newFilm = new Film(name, description, genre, duration, rating, director, id);
@@ -548,32 +522,37 @@ bool SaveAndLoad::_addFilm(string name, string description, string genre, int du
     return true;
 }
 
-void SaveAndLoad::addFilm(string name, string description, string genre, int duration, int rating, Director* director, int id) {
+Film* SaveAndLoad::addFilm(string name, string description, string genre, int duration, int rating, Director* director, int id) {
     if (id == -1) {
-        id = this->films.size();
+        id = this->films.size() + 1;
     }
 
     Film* newFilm = new Film(name, description, genre, duration, rating, director, id);
-
     this->films.push_back(newFilm);
+
+    return newFilm;
 }
 
-void SaveAndLoad::addSession(Film* film, Hall* hall, Time time, Date date, int id) {
+Session* SaveAndLoad::addSession(Film* film, Hall* hall, Time time, Date date, int id) {
     if (id == -1) {
-        id = this->sessions.size();
+        id = this->sessions.size() + 1;
     }
 
     Session* newSession = new Session(id, film, hall, time, date);
     this->sessions.push_back(newSession);
+
+    return newSession;
 }
 
-void SaveAndLoad::addClient(string name, string lastname, Date bday, int id) {
+Client* SaveAndLoad::addClient(string name, string lastname, Date bday, int id) {
     if (id == -1) {
-        id = this->clients.size();
+        id = this->clients.size() + 1;
     }
 
     Client* newClient = new Client(name, lastname, bday, id);
     this->clients.push_back(newClient);
+
+    return newClient;
 }
 
 bool SaveAndLoad::_addClient(string name, string lastname, Date bday, int id, int totalTicketPurchased, int discount) {
@@ -586,22 +565,26 @@ bool SaveAndLoad::_addClient(string name, string lastname, Date bday, int id, in
     return true;
 }
 
-void SaveAndLoad::addActor(string name, string lastname, Date bday, int id) {
+Actor* SaveAndLoad::addActor(string name, string lastname, Date bday, int id) {
     if (id == -1) {
-        id = this->actors.size();
+        id = this->actors.size() + 1;
     }
 
     Actor* newActor = new Actor(name, lastname, bday, id);
     this->actors.push_back(newActor);
+
+    return newActor;
 }
 
-void SaveAndLoad::addDirector(string name, string lastname, Date& bday, int id) {
+Director* SaveAndLoad::addDirector(string name, string lastname, Date& bday, int id) {
     if (id == -1) {
-        id = this->directors.size();
+        id = this->directors.size() + 1;
     }
 
     Director* newDirector = new Director(name, lastname, bday, id);
     this->directors.push_back(newDirector);
+
+    return newDirector;
 }
 
 bool SaveAndLoad::_addDirector(string name, string lastname, Date bday, int id, int soldTotal, string soldByDay) {
@@ -616,13 +599,26 @@ bool SaveAndLoad::_addDirector(string name, string lastname, Date bday, int id, 
     return true;
 }
 
-void SaveAndLoad::addHall(int rows, int seats, int id) {
+Hall* SaveAndLoad::addHall(int rows, int seats, int id) {
     if (id == -1) {
-        id = this->halls.size();
+        id = this->halls.size() + 1;
     }
 
     Hall* newHall = new Hall(id, rows, seats);
     this->halls.push_back(newHall);
+
+    return newHall;
+}
+
+void SaveAndLoad::delFilm(int id)
+{
+    Film* film = this->getFilmById(id);
+    auto f = std::find(this->films.begin(), this->films.end(), film);
+
+    if (f != this->films.end()) {
+        this->films.erase(f);
+        delete film;
+    }
 }
 
 void SaveAndLoad::removeHall(int id) {
@@ -653,10 +649,6 @@ vector<Director*> SaveAndLoad::getAllDirectors() {
 
 vector<Actor*> SaveAndLoad::getAllActors() {
     return this->actors;
-}
-
-vector<Statistic*> SaveAndLoad::getAllStatistics() {
-    return this->statistics;
 }
 
 
@@ -758,17 +750,4 @@ Actor* SaveAndLoad::getActorById(int id) {
     return result;
 }
 
-Statistic* SaveAndLoad::getStatisticById(int id) {
-    Statistic* result = nullptr;
-    auto statistics = this->getAllStatistics();
-
-    for (auto statistic: statistics) {
-        if (statistic->getId() == id) {
-            result = statistic;
-            break;
-        }
-    }
-
-    return result;
-}
 
