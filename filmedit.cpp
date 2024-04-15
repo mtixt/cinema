@@ -36,6 +36,7 @@ void FilmEdit::on_saveButton_clicked()
         if (actors[i].toInt())
             this->film->addActor(sal.getActorById(actors[i].toInt()));
     }
+
 }
 
 

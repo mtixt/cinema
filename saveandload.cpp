@@ -140,7 +140,6 @@ bool SaveAndLoad::saveSessions() {
     QSqlQuery query = QSqlQuery(this->getDB());
     query.exec("DELETE FROM sessions");
 
-    // query = QSqlQuery(this->getDB());
     query.prepare("INSERT INTO sessions (id, film, hall, hours, minutes, day, month, year) "
                   "VALUES (:id, :film, :hall, :hours, :minutes, :day, :month, :year)");
 
@@ -398,14 +397,15 @@ bool SaveAndLoad::loadSessions() {
 
     // Перед сеансом должны быть созданы:
     // - film
+    // - hall
 
     QSqlQuery query = QSqlQuery(this->getDB());
-    query.exec("SELECT * FROM tickets");
+    query.exec("SELECT * FROM sessions");
 
     while (query.next()) {
         int id      = query.record().field("id").value().toInt();
-        int filmId  = query.record().field("filmId").value().toInt();
-        int hallId  = query.record().field("hallId").value().toInt();
+        int filmId  = query.record().field("film").value().toInt();
+        int hallId  = query.record().field("hall").value().toInt();
         int hours   = query.record().field("hours").value().toInt();
         int minutes = query.record().field("minutes").value().toInt();
         int day     = query.record().field("day").value().toInt();

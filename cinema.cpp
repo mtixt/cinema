@@ -136,3 +136,24 @@ void Cinema::on_deleteButton_clicked()
     }
 }
 
+
+void Cinema::on_refreshButton_clicked()
+{
+    if (ui->pages->currentWidget() == filmsPage) {
+        filmsPage->render_page();
+    }
+}
+
+
+void Cinema::on_sessionsButton_clicked()
+{
+    ui->headerToolButtons->setEnabled(true);
+    ui->bottomToolButtons->show();
+
+    sessionsPage = new SessionsPage(ui->pages);
+    sessionsPage->render_page();
+
+    ui->pages->addWidget(sessionsPage);
+    ui->pages->setCurrentWidget(sessionsPage);
+}
+

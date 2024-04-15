@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QButtonGroup>
 #include "saveandload.h"
+#include "sessionspage.h"
 #include "filmspage.h"
 #include "filmview.h"
 #include "filmedit.h"
@@ -38,10 +39,15 @@ private slots:
 
     void on_deleteButton_clicked();
 
+    void on_refreshButton_clicked();
+
+    void on_sessionsButton_clicked();
+
 private:
     Ui::Cinema *ui;
 
     FilmsPage* filmsPage;
+    SessionsPage* sessionsPage;
     FilmView* filmView;
     FilmEdit* filmEdit;
 
