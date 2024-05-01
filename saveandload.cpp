@@ -5,6 +5,7 @@ SaveAndLoad& SaveAndLoad::init() {
     return obj;
 }
 
+
 bool SaveAndLoad::setDatabase(QString path) {
     if (this->db.isOpen()) {
         return false;
@@ -24,6 +25,7 @@ bool SaveAndLoad::dbOpened() {
 QSqlDatabase& SaveAndLoad::getDB() {
     return this->db;
 }
+
 
 bool SaveAndLoad::saveData() {
     //  Save data to DB and delete objects
@@ -424,6 +426,7 @@ bool SaveAndLoad::loadSessions() {
     return true;
 }
 
+
 Time SaveAndLoad::getTime() {
     Time time;
 
@@ -444,23 +447,22 @@ Date SaveAndLoad::getDate() {
     return date;
 }
 
-Film SaveAndLoad::getFilmByName(string name) {
-    Film film;
+Film* SaveAndLoad::getFilmByName(string name) {
+    for (auto film : this->getAllFilms()) {
+        if (film->getName() == name)
+            return film;
+    }
 
-    /*
-        - film = БД.Films.Where(@film => @film.Name == name).Select().FirstOrDefault();
-    */
-
-    return film;
+    return nullptr;
 }
 
 vector<Film*> SaveAndLoad::getFilmsByDirector(string name) {
     vector<Film*> films;
 
-    /*
-     * TODO:
-     *  - film = БД.Films.Where(@film => @film.Director == name).Select();
-    */
+    for (auto film : this->getAllFilms()) {
+        if (film->getDirector()->getName() == name)
+            films.push_back(film);
+    }
 
     return films;
 }
@@ -468,9 +470,23 @@ vector<Film*> SaveAndLoad::getFilmsByDirector(string name) {
 vector<Film*> SaveAndLoad::getFilmsByActor(string name) {
     vector<Film*> films;
 
-    /*
-        - film = БД.Films.Where(@film => @film.Actor == name).Select();
-    */
+    for (auto film : this->getAllFilms()) {
+        for (auto actor : film->getActors()) {
+            if (actor->getName() == name)
+                films.push_back(film);
+        }
+    }
+
+    return films;
+}
+
+vector<Film*> SaveAndLoad::getFilmsByDate(Date date) {
+    vector<Film*> films;
+
+    for (auto session : this->getAllSessions()) {
+        if (session->getDate() == date)
+            films.push_back(session->getFilm());
+    }
 
     return films;
 }
@@ -527,9 +543,6 @@ bool SaveAndLoad::_addFilm(string name, string description, string genre, int du
     }
 
     Film* newFilm = new Film(name, description, genre, duration, rating, director, id);
-
-    // parsing soldByDay
-    // newFilm.setSoldAtDay() loop
 
     this->films.push_back(newFilm);
 
@@ -708,6 +721,7 @@ void SaveAndLoad::printTicket(Ticket ticket) {
     // echo "ваш билетик"
 }
 
+
 vector<Client*> SaveAndLoad::getAllClients() {
     return this->clients;
 }
@@ -716,10 +730,13 @@ vector<Ticket*> SaveAndLoad::getAllTickets() {
     return this->tickets;
 }
 
-Client SaveAndLoad::getClientByName(string name, string lastname) {
-    Date bday;
-    Client client("", "", bday);
-    return client;
+Client* SaveAndLoad::getClientByName(string name, string lastname) {
+    for (auto client : this->getAllClients()) {
+        if (client->getName() == name and client->getLastname() == lastname)
+            return client;
+    }
+
+    return nullptr;
 }
 
 vector<Director*> SaveAndLoad::getAllDirectors() {
@@ -732,101 +749,73 @@ vector<Actor*> SaveAndLoad::getAllActors() {
 
 
 Film* SaveAndLoad::getFilmById(int id) {
-    Film* result = nullptr;
-    auto films = this->getAllFilms();
-
-    for (auto film: films) {
+    for (auto film : this->getAllFilms()) {
         if (film->getId() == id) {
-            result = film;
-            break;
+            return film;
         }
     }
 
-    return result;
+    return nullptr;
 }
 
 Session* SaveAndLoad::getSessionById(int id) {
-    Session* result = nullptr;
-    auto sessions = this->getAllSessions();
-
-    for (auto session: sessions) {
+    for (auto session : this->getAllSessions()) {
         if (session->getId() == id) {
-            result = session;
-            break;
+            return session;
         }
     }
 
-    return result;
+    return nullptr;
 }
 
 Client* SaveAndLoad::getClientById(int id) {
-    Client* result = nullptr;
-    auto clients = this->getAllClients();
-
-    for (auto client: clients) {
+    for (auto client : this->getAllClients()) {
         if (client->getId() == id) {
-            result = client;
-            break;
+            return client;
         }
     }
 
-    return result;
+    return nullptr;
 }
 
 Hall* SaveAndLoad::getHallById(int id) {
-    Hall* result = nullptr;
-    auto halls = this->getHalls();
-
-    for (auto hall: halls) {
+    for (auto hall : this->getHalls()) {
         if (hall->getId() == id) {
-            result = hall;
-            break;
+            return hall;
         }
     }
 
-    return result;
+    return nullptr;
 }
 
 Ticket* SaveAndLoad::getTicketById(int id) {
-    Ticket* result = nullptr;
-    auto tickets = this->getAllTickets();
-
-    for (auto ticket: tickets) {
+    for (auto ticket : this->getAllTickets()) {
         if (ticket->getId() == id) {
-            result = ticket;
-            break;
+            return ticket;
         }
     }
 
-    return result;
+    return nullptr;
 }
 
 Director* SaveAndLoad::getDirectorById(int id) {
-    Director* result = nullptr;
-    auto directors = this->getAllDirectors();
-
-    for (auto director: directors) {
+    for (auto director: this->getAllDirectors()) {
         if (director->getId() == id) {
-            result = director;
-            break;
+            return director;
         }
     }
 
-    return result;
+    return nullptr;
 }
 
 Actor* SaveAndLoad::getActorById(int id) {
-    Actor* result = nullptr;
-    auto actors = this->getAllActors();
-
-    for (auto actor : actors) {
+    for (auto actor : this->getAllActors()) {
         if (actor->getId() == id) {
-            result = actor;
-            break;
+            return actor;
         }
     }
 
-    return result;
+    return nullptr;
 }
 
 

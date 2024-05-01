@@ -73,11 +73,14 @@ public:
     bool saveDirectors();
     bool saveFilmsActors();
 
+
     Time                getTime();
     Date                getDate();
-    Film                getFilmByName(string name);
+    Film*               getFilmByName(string name);
+
     vector<Film*>       getFilmsByDirector(string name);
     vector<Film*>       getFilmsByActor(string name);
+    vector<Film*>       getFilmsByDate(Date date);
     vector<Film*>       getAllFilms();
     vector<Session*>    getSessionByDate(Date date);
     vector<Session*>    getSessionByFilm(string name);
@@ -86,7 +89,8 @@ public:
     vector<Hall*>       getHalls();
     vector<Client*>     getAllClients();
     vector<Ticket*>     getAllTickets();
-    Client              getClientByName(string name, string lastname);
+
+    Client*             getClientByName(string name, string lastname);
     vector<Director*>   getAllDirectors();
     vector<Actor*>      getAllActors();
     Film*               getFilmById(int id);
@@ -96,6 +100,7 @@ public:
     Ticket*             getTicketById(int id);
     Director*           getDirectorById(int id);
     Actor*              getActorById(int id);
+
 
     Film* addFilm(string name, string description, string genre, int duration, int rating, Director* director = nullptr, int id = -1);
     Session* addSession(Film* film, Hall* hall, Time time, Date date, int id = -1);

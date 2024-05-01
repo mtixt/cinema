@@ -5,6 +5,7 @@
 #include <QButtonGroup>
 #include "saveandload.h"
 #include "sessionspage.h"
+#include "sessionview.h"
 #include "filmspage.h"
 #include "filmview.h"
 #include "filmedit.h"
@@ -35,31 +36,21 @@ public:
     ~Cinema();
 
 private slots:
-    void on_filmsButton_clicked();
-
-    void on_actorsButton_clicked();
-
     void on_homeButton_clicked();
-
     void on_editButton_clicked();
-
     void on_viewButton_clicked();
-
     void on_addButton_clicked();
-
     void on_deleteButton_clicked();
-
     void on_refreshButton_clicked();
 
+    void on_filmsButton_clicked();
+    void on_actorsButton_clicked();
     void on_sessionsButton_clicked();
-
     void on_hallsButton_clicked();
-
     void on_directorsButton_clicked();
-
     void on_clientsButton_clicked();
-
     void on_todaySessionsButton_clicked();
+    void on_todayFilmsButton_clicked();
 
 private:
     Ui::Cinema *ui;
@@ -73,6 +64,7 @@ private:
     ActorEdit* actorEdit;
 
     SessionsPage* sessionsPage;
+    SessionView* sessionView;
 
     HallsPage* hallsPage;
     HallView*  hallView;

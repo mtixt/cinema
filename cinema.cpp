@@ -138,6 +138,15 @@ void Cinema::on_viewButton_clicked()
             filmView->show();
         }
     }
+    else if (ui->pages->currentWidget() == sessionsPage) {
+        int id = sessionsPage->sessionsButtonsGroup->checkedId();
+
+        if (id >= 0) {
+            sessionView = new SessionView(sal.getSessionById(id));
+            sessionView->setModal(true);
+            sessionView->show();
+        }
+    }
     else if (ui->pages->currentWidget() == actorsPage) {
         int id = actorsPage->actorsButtonsGroup->checkedId();
 
@@ -362,7 +371,6 @@ void Cinema::on_todaySessionsButton_clicked()
 
     auto sessions = sal.getSessionByDate(date);
 
-
     ui->headerToolButtons->setEnabled(true);
     ui->bottomToolButtons->show();
 
@@ -371,5 +379,23 @@ void Cinema::on_todaySessionsButton_clicked()
 
     ui->pages->addWidget(sessionsPage);
     ui->pages->setCurrentWidget(sessionsPage);
+}
+
+
+void Cinema::on_todayFilmsButton_clicked()
+{
+    QDate currentDate = QDate::currentDate();
+    Date date(currentDate.day(), currentDate.month(), currentDate.year());
+
+    auto films = sal.getFilmsByDate(date);
+
+    ui->headerToolButtons->setEnabled(true);
+    ui->bottomToolButtons->show();
+
+    filmsPage = new FilmsPage(ui->pages);
+    filmsPage->render_page(films, "Фильмы сегодня");
+
+    ui->pages->addWidget(filmsPage);
+    ui->pages->setCurrentWidget(filmsPage);
 }
 
