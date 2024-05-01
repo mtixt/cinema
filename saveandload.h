@@ -81,6 +81,7 @@ public:
     vector<Film*>       getAllFilms();
     vector<Session*>    getSessionByDate(Date date);
     vector<Session*>    getSessionByFilm(string name);
+    vector<Session*>    getSessionByFilm(Film* film);
     vector<Session*>    getAllSessions();
     vector<Hall*>       getHalls();
     vector<Client*>     getAllClients();
@@ -110,7 +111,8 @@ public:
     void delDirector(int id);
     void delHall(int id);
 
-    void removeHall(int id);
+    void filmAddActor(Film* film, Actor* actor);
+
     void printTicket(Ticket ticket);
 };
 

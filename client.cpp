@@ -41,6 +41,11 @@ void Client::addTicket(Ticket* ticket) {
     totalTicketPurchased++;
 }
 
+void Client::clearTickets()
+{
+    this->tickets.clear();
+}
+
 int Client::getId() {
     return this->id;
 }

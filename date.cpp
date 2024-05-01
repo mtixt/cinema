@@ -38,27 +38,8 @@ std::string Date::getDate() const {
     return strDate;
 }
 
-bool Date::operator<(const Date& date) {
-    return this->getDate() < date.getDate();
+bool Date::operator==(Date& date) {
+    return this->getDay() == date.getDay()
+           and this->getMonth() == date.getMonth()
+           and this->getYear() == date.getYear();
 }
-
-bool Date::operator>(const Date& date) {
-    return this->getDate() > date.getDate();
-}
-
-bool Date::operator==(const Date& date) {
-    return this->getDate() == date.getDate();
-}
-
-bool operator<(const Date a, const Date b) {
-    return a.getDate() < b.getDate();
-}
-
-bool operator>(const Date a, const Date b) {
-    return a.getDate() > b.getDate();
-}
-
-bool operator==(const Date a, const Date b) {
-    return a.getDate() == b.getDate();
-}
-

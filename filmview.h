@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "film.h"
+#include "saveandload.h"
 
 namespace Ui {
 class FilmView;
@@ -18,6 +19,8 @@ public:
 
 private:
     Ui::FilmView *ui;
+
+    SaveAndLoad& sal = SaveAndLoad::init();
 };
 
 #endif // FILMVIEW_H

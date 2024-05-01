@@ -22,6 +22,7 @@ public:
     int getTotalTicketPurchased();
     void setTotalTicketPurchased(int totalTicketPurchased);
     void addTicket(Ticket* ticket);
+    void clearTickets();
     int getId();
 };
 

@@ -1,6 +1,7 @@
 #include "filmview.h"
 #include "ui_filmview.h"
 #include "actorspage.h"
+#include "sessionspage.h"
 
 FilmView::FilmView(Film* film, QWidget *parent)
     : QDialog(parent)
@@ -21,8 +22,12 @@ FilmView::FilmView(Film* film, QWidget *parent)
     ui->filmInfoLabel->setText(filmInfo);
 
     ActorsPage* actorsPage = new ActorsPage();
-    actorsPage->render_subpage(film);
+    actorsPage->render_page(film->getActors());
     ui->actorsLayout->addWidget(actorsPage);
+
+    SessionsPage* sessionsPage = new SessionsPage();
+    sessionsPage->render_page(sal.getSessionByFilm(film));
+    ui->sessionsLayout->addWidget(sessionsPage);
 
 }
 

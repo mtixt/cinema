@@ -19,13 +19,7 @@ public:
     int getYear();
     std::string getDate() const;
 
-    bool operator<(const Date& date);
-    bool operator>(const Date& date);
-    bool operator==(const Date& date);
+    bool operator==(Date& date);
 };
-
-bool operator<(const Date a, const Date b);
-bool operator>(const Date a, const Date b);
-bool operator==(const Date a, const Date b);
 
 #endif // DATE_H

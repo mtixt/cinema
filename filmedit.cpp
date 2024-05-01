@@ -1,7 +1,6 @@
 #include "filmedit.h"
 #include "actor.h"
 #include "ui_filmedit.h"
-#include <QDebug>
 
 FilmEdit::FilmEdit(Film* film, QWidget *parent)
     : QDialog(parent)
@@ -34,7 +33,7 @@ void FilmEdit::on_saveButton_clicked()
 
     for (int i=0; i < actors.size(); i++) {
         if (actors[i].toInt())
-            this->film->addActor(sal.getActorById(actors[i].toInt()));
+            sal.filmAddActor(film, sal.getActorById(actors[i].toInt()));
     }
 
 }

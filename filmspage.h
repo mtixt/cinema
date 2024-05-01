@@ -29,7 +29,7 @@ public:
     QButtonGroup* filmButtonsGroup;
 
 public slots:
-    void render_page();
+    void render_page(const vector<Film*>& films, QString title = "");
 
 signals:
 };

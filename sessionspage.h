@@ -26,10 +26,10 @@ private:
 
 public:
     explicit SessionsPage(QWidget *parent = nullptr);
-    QButtonGroup* sessionButtonsGroup;
+    QButtonGroup* sessionsButtonsGroup;
 
 public slots:
-    void render_page();
+    void render_page(const vector<Session*>& sessions, QString title = "");
 
 signals:
 };

@@ -458,7 +458,8 @@ vector<Film*> SaveAndLoad::getFilmsByDirector(string name) {
     vector<Film*> films;
 
     /*
-        - film = БД.Films.Where(@film => @film.Director == name).Select();
+     * TODO:
+     *  - film = БД.Films.Where(@film => @film.Director == name).Select();
     */
 
     return films;
@@ -481,9 +482,10 @@ vector<Film*> SaveAndLoad::getAllFilms() {
 vector<Session*> SaveAndLoad::getSessionByDate(Date date) {
     vector<Session*> sessions;
 
-    /*
-        - sessions = БД.Sessions.Where(@session => @session.Date == date).Select();
-    */
+    for (auto session : this->getAllSessions()) {
+        if (session->getDate() == date)
+            sessions.push_back(session);
+    }
 
     return sessions;
 }
@@ -491,9 +493,21 @@ vector<Session*> SaveAndLoad::getSessionByDate(Date date) {
 vector<Session*> SaveAndLoad::getSessionByFilm(string name) {
     vector<Session*> sessions;
 
-    /*
-        - sessions = БД.Sessions.Where(@sessions => @session.Film == name).Select();
-    */
+    for (auto session : this->getAllSessions()) {
+        if (session->getFilm()->getName() == name)
+            sessions.push_back(session);
+    }
+
+    return sessions;
+}
+
+vector<Session*> SaveAndLoad::getSessionByFilm(Film* film) {
+    vector<Session*> sessions;
+
+    for (auto session : this->getAllSessions()) {
+        if (session->getFilm()->getId() == film->getId())
+            sessions.push_back(session);
+    }
 
     return sessions;
 }
@@ -590,10 +604,6 @@ Director* SaveAndLoad::addDirector(string name, string lastname, Date& bday, int
 bool SaveAndLoad::_addDirector(string name, string lastname, Date bday, int id, int soldTotal, string soldByDay) {
     Director* newDirector = new Director(name, lastname, bday, id);
 
-    // parse soldByDay
-    // newDirector.setSoldAtDay() loop
-
-
     this->directors.push_back(newDirector);
 
     return true;
@@ -612,6 +622,9 @@ Hall* SaveAndLoad::addHall(int rows, int seats, int id) {
 
 void SaveAndLoad::delFilm(int id)
 {
+    // TODO: удалить зависимости
+    //  - сеансы
+
     Film* film = this->getFilmById(id);
     auto f = std::find(this->films.begin(), this->films.end(), film);
 
@@ -621,8 +634,74 @@ void SaveAndLoad::delFilm(int id)
     }
 }
 
-void SaveAndLoad::removeHall(int id) {
+void SaveAndLoad::delSession(int id)
+{
+    // TODO: удалить зависимости
+    //  - билеты
 
+    Session* session = this->getSessionById(id);
+    auto s = std::find(this->sessions.begin(), this->sessions.end(), session);
+
+    if (s != this->sessions.end()) {
+        this->sessions.erase(s);
+        delete session;
+    }
+}
+
+void SaveAndLoad::delActor(int id)
+{
+    // TODO: удалить зависимости
+    //  - удалить из фильмов
+
+    Actor* actor = this->getActorById(id);
+    auto a = std::find(this->actors.begin(), this->actors.end(), actor);
+
+    if (a != this->actors.end()) {
+        this->actors.erase(a);
+        delete actor;
+    }
+}
+
+void SaveAndLoad::delClient(int id)
+{
+    Client* client = this->getClientById(id);
+    auto d = std::find(this->clients.begin(), this->clients.end(), client);
+
+    if (d != this->clients.end()) {
+        this->clients.erase(d);
+        delete client;
+    }
+}
+
+void SaveAndLoad::delDirector(int id)
+{
+    Director* director = this->getDirectorById(id);
+    auto d = std::find(this->directors.begin(), this->directors.end(), director);
+
+    if (d != this->directors.end()) {
+        this->directors.erase(d);
+        delete director;
+    }
+}
+
+void SaveAndLoad::delHall(int id)
+{
+    // TODO: удалить зависимости
+    //  - сеансы
+
+    Hall* hall = this->getHallById(id);
+    auto h = std::find(this->halls.begin(), this->halls.end(), hall);
+
+    if (h != this->halls.end()) {
+        this->halls.erase(h);
+        delete hall;
+    }
+}
+
+void SaveAndLoad::filmAddActor(Film *film, Actor *actor)
+{
+    film->addActor(actor);
+    actor->addFilm(film);
 }
 
 void SaveAndLoad::printTicket(Ticket ticket) {

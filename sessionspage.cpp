@@ -6,7 +6,7 @@ SessionsPage::SessionsPage(QWidget *parent)
     : QWidget{parent}
 {}
 
-void SessionsPage::render_page()
+void SessionsPage::render_page(const vector<Session*>& sessions, QString title)
 {
     // Очистка страницы
     for (auto child : this->children()) {
@@ -15,27 +15,27 @@ void SessionsPage::render_page()
 
     sessionsPageLayout = new QVBoxLayout(this);
 
-    sessionsLabel = new QLabel("Сеансы", this);
-    sessionsLabel->setFont(QFont("Segoe UI", 20, QFont::Bold));
-    sessionsLabel->setAlignment(Qt::Alignment(Qt::AlignCenter));
+    // Заголовок если есть
+    if (title != "") {
+        sessionsLabel = new QLabel(title, this);
+        sessionsLabel->setFont(QFont("Segoe UI", 20, QFont::Bold));
+        sessionsLabel->setAlignment(Qt::Alignment(Qt::AlignCenter));
+        sessionsPageLayout->addWidget(sessionsLabel);
+    }
 
+    // Scroll Area
     sessionsScrollArea = new QScrollArea(this);
     sessionsScrollArea->setWidgetResizable(true);
-
     sessionsScrollAreaWidget = new QWidget();
     sessionsScrollArea->setWidget(sessionsScrollAreaWidget);
-
-    sessionsPageLayout->addWidget(sessionsLabel);
     sessionsPageLayout->addWidget(sessionsScrollArea);
 
     // Layout для равномерного заполнения
     sessionsScrollAreaLayout = new QVBoxLayout(sessionsScrollAreaWidget);
-    // Spacer для заполнения нижней части, чтоб виджеты фильмов не растягивались на всю высоту
-    sessionsScrollSpaser = new QSpacerItem(100, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-    sessionButtonsGroup = new QButtonGroup(this);
+    sessionsButtonsGroup = new QButtonGroup(this);
 
-    for (auto session : sal.getAllSessions()) {
+    for (auto session : sessions) {
         // Создание виджетов и добавление их в ScrollArea
 
         // session Widget
@@ -56,20 +56,22 @@ void SessionsPage::render_page()
         sessionDescLabel->setMaximumWidth(860);
         sessionDescLabel->setWordWrap(true);
 
-        // session rating
-        QLabel* sessionRatingLabel = new QLabel(session->getDate().getDate().c_str());
-        sessionRatingLabel->setFont(QFont("Arial", 13, QFont::Bold));
-        sessionRatingLabel->setAlignment(Qt::Alignment(Qt::AlignRight));
-        // sessionRatingLabel->setStyleSheet("QLabel { color : green; }");
+        // session date and time
+        QLabel* sessionDateTimeLabel = new QLabel((session->getTime().getTime() + "    " + session->getDate().getDate()).c_str());
+        sessionDateTimeLabel->setFont(QFont("Arial", 13, QFont::Bold));
+        sessionDateTimeLabel->setAlignment(Qt::Alignment(Qt::AlignRight));
+        // sessionDateTimeLabel->setStyleSheet("QLabel { color : green; }");
 
         // Компановка
         sessionLayout->addWidget(sessionNameLabel, 1, 1);
         sessionLayout->addWidget(sessionDescLabel, 2, 1, 2, 3);
-        sessionLayout->addWidget(sessionRatingLabel, 1, 3);
+        sessionLayout->addWidget(sessionDateTimeLabel, 1, 3);
 
         sessionsScrollAreaLayout->addWidget(sessionWidget);
-        sessionButtonsGroup->addButton(sessionWidget, session->getId());
+        sessionsButtonsGroup->addButton(sessionWidget, session->getId());
     }
 
+    // Spacer для заполнения нижней части, чтоб виджеты фильмов не растягивались на всю высоту
+    sessionsScrollSpaser = new QSpacerItem(100, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
     sessionsScrollAreaLayout->addItem(sessionsScrollSpaser);
 }

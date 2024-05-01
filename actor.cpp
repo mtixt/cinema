@@ -9,8 +9,14 @@ std::vector<Film*> Actor::getFilms() {
 }
 
 void Actor::addFilm(Film* film) {
-    if (film)
+    if (film) {
         this->films.push_back(film);
+    }
+}
+
+void Actor::clearFilms()
+{
+    this->films.clear();
 }
 
 int Actor::getId() {

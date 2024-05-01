@@ -10,6 +10,16 @@
 #include "filmedit.h"
 #include "actorspage.h"
 #include "actorview.h"
+#include "actoredit.h"
+#include "hallspage.h"
+#include "hallview.h"
+#include "halledit.h"
+#include "directorspage.h"
+#include "directorview.h"
+#include "directoredit.h"
+#include "clientspage.h"
+#include "clientview.h"
+#include "clientedit.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -43,16 +53,38 @@ private slots:
 
     void on_sessionsButton_clicked();
 
+    void on_hallsButton_clicked();
+
+    void on_directorsButton_clicked();
+
+    void on_clientsButton_clicked();
+
+    void on_todaySessionsButton_clicked();
+
 private:
     Ui::Cinema *ui;
 
     FilmsPage* filmsPage;
-    SessionsPage* sessionsPage;
     FilmView* filmView;
     FilmEdit* filmEdit;
 
     ActorsPage* actorsPage;
     ActorView* actorView;
+    ActorEdit* actorEdit;
+
+    SessionsPage* sessionsPage;
+
+    HallsPage* hallsPage;
+    HallView*  hallView;
+    HallEdit*  hallEdit;
+
+    DirectorsPage* directorsPage;
+    DirectorView* directorView;
+    DirectorEdit* directorEdit;
+
+    ClientsPage* clientsPage;
+    ClientView* clientView;
+    ClientEdit* clientEdit;
 
     SaveAndLoad& sal = SaveAndLoad::init();
 };

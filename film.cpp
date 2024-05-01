@@ -79,8 +79,9 @@ Director* Film::getDirector() {
 }
 
 void Film::addActor(Actor* actor) {
-    if (actor)
+    if (actor) {
         this->actors.push_back(actor);
+    }
 }
 
 void Film::clearActors() {

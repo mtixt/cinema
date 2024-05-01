@@ -15,6 +15,7 @@ public:
     Director(std::string name, std::string lastname, Date& birthday, int id = -1);
     std::vector<Film*> getFilms();
     void addFilm(Film* film);
+    void clearFilms();
     int getId();
 };
 

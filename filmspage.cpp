@@ -6,7 +6,7 @@ FilmsPage::FilmsPage(QWidget *parent)
     : QWidget{parent}
 {}
 
-void FilmsPage::render_page()
+void FilmsPage::render_page(const vector<Film*>& films, QString title)
 {
     // Очистка страницы
     for (auto child : this->children()) {
@@ -15,27 +15,28 @@ void FilmsPage::render_page()
 
     filmsPageLayout = new QVBoxLayout(this);
 
-    filmsLabel = new QLabel("Фильмы", this);
-    filmsLabel->setFont(QFont("Segoe UI", 20, QFont::Bold));
-    filmsLabel->setAlignment(Qt::Alignment(Qt::AlignCenter));
+    // Заголовок если есть
+    if (title != "") {
+        filmsLabel = new QLabel(title, this);
+        filmsLabel->setFont(QFont("Segoe UI", 20, QFont::Bold));
+        filmsLabel->setAlignment(Qt::Alignment(Qt::AlignCenter));
 
+        filmsPageLayout->addWidget(filmsLabel);
+    }
+
+    // Scroll Area
     filmsScrollArea = new QScrollArea(this);
     filmsScrollArea->setWidgetResizable(true);
-
     filmsScrollAreaWidget = new QWidget();
     filmsScrollArea->setWidget(filmsScrollAreaWidget);
-
-    filmsPageLayout->addWidget(filmsLabel);
     filmsPageLayout->addWidget(filmsScrollArea);
 
     // Layout для равномерного заполнения
     filmsScrollAreaLayout = new QVBoxLayout(filmsScrollAreaWidget);
-    // Spacer для заполнения нижней части, чтоб виджеты фильмов не растягивались на всю высоту
-    filmsScrollSpaser = new QSpacerItem(100, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
     filmButtonsGroup = new QButtonGroup(this);
 
-    for (auto film : sal.getAllFilms()) {
+    for (auto film : films) {
         // Создание виджетов и добавление их в ScrollArea
 
         // Film Widget
@@ -76,5 +77,7 @@ void FilmsPage::render_page()
         filmButtonsGroup->addButton(filmWidget, film->getId());
     }
 
+    // Spacer для заполнения нижней части, чтоб виджеты фильмов не растягивались на всю высоту
+    filmsScrollSpaser = new QSpacerItem(100, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
     filmsScrollAreaLayout->addItem(filmsScrollSpaser);
 }

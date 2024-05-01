@@ -26,11 +26,10 @@ private:
 
 public:
     explicit ActorsPage(QWidget *parent = nullptr);
-    QButtonGroup* actorButtonsGroup;
+    QButtonGroup* actorsButtonsGroup;
 
 public slots:
-    void render_page();
-    void render_subpage(Film* film);
+    void render_page(const vector<Actor*>& actors, QString title = "");
 
 signals:
 };
