@@ -165,12 +165,11 @@ bool SaveAndLoad::saveTickets() {
     query.exec("DELETE FROM tickets");
 
     // query = QSqlQuery(this->getDB());
-    query.prepare("INSERT INTO tickets (id, cost, seatRow, seatNum, session, client) "
-                  "VALUES (:id, :cost, :seatRow, :seatNum, :session, :client)");
+    query.prepare("INSERT INTO tickets (id, seatRow, seatNum, session, client) "
+                  "VALUES (:id, :seatRow, :seatNum, :session, :client)");
 
     for (auto ticket : this->tickets){
         query.bindValue(":id", ticket->getId());
-        query.bindValue(":cost", ticket->getCost());
         query.bindValue(":seatRow", ticket->getSeat()->getRow());
         query.bindValue(":seatNum", ticket->getSeat()->getNum());
         query.bindValue(":session", ticket->getSession()->getId());
@@ -379,16 +378,16 @@ bool SaveAndLoad::loadTickets() {
     query.exec("SELECT * FROM tickets");
 
     while (query.next()) {
-        int cost        = query.record().field("cost").value().toInt();
+        int id          = query.record().field("id").value().toInt();
         int seatrow     = query.record().field("seatrow").value().toInt();
         int seatnum     = query.record().field("seatnum").value().toInt();
-        int sessionId   = query.record().field("sessionId").value().toInt();
-        int clientId    = query.record().field("clientId").value().toInt();
+        int sessionId   = query.record().field("session").value().toInt();
+        int clientId    = query.record().field("client").value().toInt();
 
         Client* client = this->getClientById(clientId);
         Session* session = this->getSessionById(sessionId);
 
-        session->sellTicket(cost, seatrow, seatnum, client);
+        this->sellTicket(session, seatrow, seatnum, client, id);
     }
 
     return true;
@@ -484,8 +483,11 @@ vector<Film*> SaveAndLoad::getFilmsByDate(Date date) {
     vector<Film*> films;
 
     for (auto session : this->getAllSessions()) {
-        if (session->getDate() == date)
+        if (session->getDate() == date
+            && std::find(films.begin(), films.end(), session->getFilm()) == films.end())
+        {
             films.push_back(session->getFilm());
+        }
     }
 
     return films;
@@ -717,10 +719,21 @@ void SaveAndLoad::filmAddActor(Film *film, Actor *actor)
     actor->addFilm(film);
 }
 
-void SaveAndLoad::printTicket(Ticket ticket) {
-    // echo "ваш билетик"
-}
+Ticket* SaveAndLoad::sellTicket(Session *session, int row, int num, Client *client, int id)
+{
+    if (id == -1)
+        id = this->tickets.size() + 1;
 
+    Ticket* ticket = new Ticket(session->getSeatByNum(row, num), session, client, id);
+
+    this->tickets.push_back(ticket);
+    session->bookSeat(row, num, ticket);
+
+    if (client)
+        client->addTicket(ticket);
+
+    return ticket;
+}
 
 vector<Client*> SaveAndLoad::getAllClients() {
     return this->clients;

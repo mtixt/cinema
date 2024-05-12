@@ -1,7 +1,7 @@
 #include "sessionview.h"
 #include "ui_sessionview.h"
-#include "QButtonGroup"
-#include "QPushButton"
+#include <QLineEdit>
+#include <QCheckBox>
 
 SessionView::SessionView(Session* session, QWidget *parent)
     : QDialog(parent)
@@ -9,12 +9,14 @@ SessionView::SessionView(Session* session, QWidget *parent)
 {
     ui->setupUi(this);
 
+    this->session = session;
+
     ui->filmNameLabel->setText(session->getFilm()->getName().c_str());
     ui->filmRatingLabel->setText(QString("%1").arg(session->getFilm()->getRating()));
     ui->dateLabel->setText(QString("%1").arg(session->getDate().getDate().c_str()));
     ui->timeLabel->setText(QString("%1").arg(session->getTime().getTime().c_str()));
 
-    render_space(session);
+    render_space();
 }
 
 SessionView::~SessionView()
@@ -22,20 +24,19 @@ SessionView::~SessionView()
     delete ui;
 }
 
-void SessionView::render_space(Session* session)
+void SessionView::render_space()
 {
-    QWidget* spaceWidget = ui->spaceWidget;
+    spaceWidget = ui->spaceWidget;
 
     // Очистка страницы
     for (auto child : spaceWidget->children()) {
         delete child;
     }
 
-    spaceWidget->setMinimumHeight(session->getSpace()->size() * 30);
+    spaceWidget->setMinimumHeight(session->getSpace()->size() * 40);
 
-
-    QGridLayout* spaceLayout = new QGridLayout(spaceWidget);
-    QButtonGroup* spaceButtonGroup = new QButtonGroup(spaceWidget);
+    spaceLayout = new QGridLayout(spaceWidget);
+    spaceButtonGroup = new QButtonGroup(spaceWidget);
 
     int row_i = 1;
     for (auto row : *session->getSpace()) {
@@ -49,10 +50,19 @@ void SessionView::render_space(Session* session)
 
         for (auto seat : row) {
             QPushButton* seatButton = new QPushButton();
-
             seatButton->setFixedSize(30, 30);
-            // seatButton->setFlat(true);
             seatButton->setCheckable(true);
+            seatButton->setFlat(true);
+
+            // free - blue, booked - gray
+            QPalette palette = seatButton->palette();
+            palette.setColor(seatButton->backgroundRole(), qRgb(30, 144, 255));
+            if (seat->isBooked()) {
+                palette.setColor(seatButton->backgroundRole(), Qt::gray);
+                seatButton->setDisabled(true);
+            }
+            seatButton->setAutoFillBackground(true);
+            seatButton->setPalette(palette);
 
             QVBoxLayout* seatButtonLayout = new QVBoxLayout(seatButton);
 
@@ -67,5 +77,24 @@ void SessionView::render_space(Session* session)
             spaceButtonGroup->addButton(seatButton);
         }
     }
-
 }
+
+void SessionView::on_bookButton_clicked()
+{
+    // calc row and num from index
+    int index = -spaceButtonGroup->checkedId() - 1;
+    if (index > 0) {
+        int row = (index - 1) / session->getHall()->getNums() + 1;
+        int num = index - (row - 1) * session->getHall()->getNums();
+
+        sellTicketPage = new SellTicketPage(session, row, num);
+        connect(sellTicketPage, SIGNAL(sold()), this,  SLOT(render_space()));
+
+        sellTicketPage->setModal(true);
+        sellTicketPage->show();
+
+        this->render_space();
+    }
+}
+
+

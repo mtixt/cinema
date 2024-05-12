@@ -82,11 +82,26 @@
     </item>
     <item>
      <widget class="QStackedWidget" name="pages">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="maximumSize">
        <size>
         <width>16777215</width>
         <height>16777215</height>
        </size>
+      </property>
+      <property name="sizeIncrement">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
       </property>
       <property name="currentIndex">
        <number>2</number>
@@ -161,6 +176,18 @@
         </property>
         <item row="1" column="1" colspan="2">
          <widget class="QPushButton" name="sessionsButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>115</height>
+           </size>
+          </property>
           <property name="text">
            <string>Сеансы</string>
           </property>
@@ -168,6 +195,18 @@
         </item>
         <item row="0" column="1" colspan="3">
          <widget class="QPushButton" name="todaySessionsButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>115</height>
+           </size>
+          </property>
           <property name="text">
            <string>Сеансы сегодня</string>
           </property>
@@ -175,6 +214,18 @@
         </item>
         <item row="2" column="3" colspan="2">
          <widget class="QPushButton" name="directorsButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>115</height>
+           </size>
+          </property>
           <property name="text">
            <string>Режиссеры</string>
           </property>
@@ -182,6 +233,18 @@
         </item>
         <item row="1" column="3" colspan="2">
          <widget class="QPushButton" name="filmsButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>115</height>
+           </size>
+          </property>
           <property name="text">
            <string>Фильмы</string>
           </property>
@@ -189,6 +252,18 @@
         </item>
         <item row="2" column="1" colspan="2">
          <widget class="QPushButton" name="actorsButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>115</height>
+           </size>
+          </property>
           <property name="text">
            <string>Актеры</string>
           </property>
@@ -196,6 +271,18 @@
         </item>
         <item row="2" column="5" colspan="2">
          <widget class="QPushButton" name="hallsButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>115</height>
+           </size>
+          </property>
           <property name="text">
            <string>Кинозалы</string>
           </property>
@@ -203,6 +290,18 @@
         </item>
         <item row="1" column="5" colspan="2">
          <widget class="QPushButton" name="clientsButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>115</height>
+           </size>
+          </property>
           <property name="text">
            <string>Клиенты</string>
           </property>
@@ -210,6 +309,18 @@
         </item>
         <item row="0" column="4" colspan="3">
          <widget class="QPushButton" name="todayFilmsButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>115</height>
+           </size>
+          </property>
           <property name="baseSize">
            <size>
             <width>0</width>

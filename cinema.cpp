@@ -39,32 +39,6 @@ Cinema::~Cinema()
 }
 
 
-void Cinema::on_filmsButton_clicked()
-{
-    ui->headerToolButtons->setEnabled(true);
-    ui->bottomToolButtons->show();
-
-    filmsPage = new FilmsPage(ui->pages);
-    filmsPage->render_page(sal.getAllFilms(), "Все фильмы");
-
-    ui->pages->addWidget(filmsPage);
-    ui->pages->setCurrentWidget(filmsPage);
-}
-
-
-void Cinema::on_actorsButton_clicked()
-{
-    ui->headerToolButtons->setEnabled(true);
-    ui->bottomToolButtons->show();
-
-    actorsPage = new ActorsPage(ui->pages);
-    actorsPage->render_page(sal.getAllActors(), "Все актеры");
-
-    ui->pages->addWidget(actorsPage);
-    ui->pages->setCurrentWidget(actorsPage);
-}
-
-
 void Cinema::on_homeButton_clicked()
 {
     // Удаляем элементы с предыдущей страницы
@@ -122,6 +96,15 @@ void Cinema::on_editButton_clicked()
             clientEdit = new ClientEdit(sal.getClientById(id));
             clientEdit->setModal(true);
             clientEdit->show();
+        }
+    }
+    else if (ui->pages->currentWidget() == sessionsPage) {
+        int id = sessionsPage->sessionsButtonsGroup->checkedId();
+
+        if (id >= 0) {
+            sessionEdit = new SessionEdit(sal.getSessionById(id));
+            sessionEdit->setModal(true);
+            sessionEdit->show();
         }
     }
 }
@@ -222,6 +205,18 @@ void Cinema::on_addButton_clicked()
         clientEdit->setModal(true);
         clientEdit->show();
     }
+    else if (ui->pages->currentWidget() == sessionsPage) {
+        Date date = Date(0, 0, 0);
+        Time time = Time(0, 0);
+
+        Film* film = sal.getFilmById(1);
+        Hall* hall = sal.getHallById(1);
+
+        Session* session = sal.addSession(film, hall, time, date);
+        sessionEdit = new SessionEdit(session);
+        sessionEdit->setModal(true);
+        sessionEdit->show();
+    }
 }
 
 
@@ -309,6 +304,33 @@ void Cinema::on_refreshButton_clicked()
     else if (ui->pages->currentWidget() == clientsPage) {
         clientsPage->render_page(sal.getAllClients(), "Все клиенты");
     }
+}
+
+
+
+void Cinema::on_filmsButton_clicked()
+{
+    ui->headerToolButtons->setEnabled(true);
+    ui->bottomToolButtons->show();
+
+    filmsPage = new FilmsPage(ui->pages);
+    filmsPage->render_page(sal.getAllFilms(), "Все фильмы");
+
+    ui->pages->addWidget(filmsPage);
+    ui->pages->setCurrentWidget(filmsPage);
+}
+
+
+void Cinema::on_actorsButton_clicked()
+{
+    ui->headerToolButtons->setEnabled(true);
+    ui->bottomToolButtons->show();
+
+    actorsPage = new ActorsPage(ui->pages);
+    actorsPage->render_page(sal.getAllActors(), "Все актеры");
+
+    ui->pages->addWidget(actorsPage);
+    ui->pages->setCurrentWidget(actorsPage);
 }
 
 

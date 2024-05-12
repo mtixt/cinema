@@ -54,6 +54,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         clientview.h clientview.cpp clientview.ui
         clientedit.h clientedit.cpp clientedit.ui
         sessionview.h sessionview.cpp sessionview.ui
+        sessionedit.h sessionedit.cpp sessionedit.ui
+        sellticketpage.h sellticketpage.cpp sellticketpage.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Cinema APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

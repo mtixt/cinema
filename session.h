@@ -35,8 +35,8 @@ public:
     void setTime(Time time);
     Date getDate();
     void setDate(Date date);
-    Ticket* sellTicket(int cost, int row, int num, Client* client=nullptr);
     Seat* getSeatByNum(int row, int num);
+    void bookSeat(int row, int num, Ticket* ticket = nullptr);
     std::vector<Ticket*> getTickets();
     std::vector<std::vector<Seat*>>* getSpace();
 };

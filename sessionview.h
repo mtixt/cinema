@@ -4,6 +4,10 @@
 #include <QDialog>
 #include "session.h"
 #include "saveandload.h"
+#include "QButtonGroup"
+#include "QPushButton"
+#include "QGridLayout"
+#include "sellticketpage.h"
 
 
 namespace Ui {
@@ -20,11 +24,19 @@ public:
 
 private:
     Ui::SessionView *ui;
-
     SaveAndLoad& sal = SaveAndLoad::init();
 
+    Session* session;
+
+    QWidget* spaceWidget;
+    QGridLayout* spaceLayout;
+    QButtonGroup* spaceButtonGroup;
+    SellTicketPage* sellTicketPage;
+
 public slots:
-    void render_space(Session* session);
+    void render_space();
+private slots:
+    void on_bookButton_clicked();
 };
 
 #endif // SESSIONVIEW_H

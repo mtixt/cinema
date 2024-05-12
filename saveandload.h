@@ -102,12 +102,12 @@ public:
     Actor*              getActorById(int id);
 
 
-    Film* addFilm(string name, string description, string genre, int duration, int rating, Director* director = nullptr, int id = -1);
-    Session* addSession(Film* film, Hall* hall, Time time, Date date, int id = -1);
-    Client* addClient(string name, string lastname, Date bday, int id = -1);
-    Actor* addActor(string name, string lastname, Date bday, int id = -1);
-    Director* addDirector(string name, string lastname, Date& bday, int id = -1);
-    Hall* addHall(int rows, int seats, int id = -1);
+    Film*       addFilm(string name, string description, string genre, int duration, int rating, Director* director = nullptr, int id = -1);
+    Session*    addSession(Film* film, Hall* hall, Time time, Date date, int id = -1);
+    Client*     addClient(string name, string lastname, Date bday, int id = -1);
+    Actor*      addActor(string name, string lastname, Date bday, int id = -1);
+    Director*   addDirector(string name, string lastname, Date& bday, int id = -1);
+    Hall*       addHall(int rows, int seats, int id = -1);
 
     void delFilm(int id);
     void delSession(int id);
@@ -117,8 +117,7 @@ public:
     void delHall(int id);
 
     void filmAddActor(Film* film, Actor* actor);
-
-    void printTicket(Ticket ticket);
+    Ticket* sellTicket(Session* session, int row, int num, Client* client = nullptr, int id = -1);
 };
 
 #endif // SAVEANDLOAD_H

@@ -10,10 +10,6 @@ Session::Session(int id, Film* film, Hall* hall, Time time, Date date) {
 }
 
 Session::~Session() {
-    for (auto&& ticket : this->tickets) {
-        delete ticket;
-    }
-
     for (auto&& row : this->space) {
         for (auto&& num : row) {
             delete num;
@@ -56,6 +52,9 @@ Hall* Session::getHall() {
 
 void Session::setHall(Hall* hall) {
     this->hall = hall;
+
+    this->space.clear();
+    this->_initSpace();
 }
 
 Time Session::getTime() {
@@ -75,19 +74,16 @@ void Session::setDate(Date date) {
 }
 
 Seat* Session::getSeatByNum(int row, int num) {
-    return this->getSpace()->at(row).at(num);
+    return this->getSpace()->at(row-1).at(num-1);
 }
 
-Ticket* Session::sellTicket(int cost, int row, int num, Client* client) {
-    Seat* seat = this->getSeatByNum(row, num);
-    Ticket* ticket = new Ticket(cost, seat, this);
-    this->tickets.push_back(ticket);
-    seat->setBooked(true);
+void Session::bookSeat(int row, int num, Ticket* ticket)
+{
+    this->getSeatByNum(row, num)->setBooked(true);
 
-    if (client)
-        client->addTicket(ticket);
-
-    return ticket;
+    if (ticket) {
+        this->tickets.push_back(ticket);
+    }
 }
 
 std::vector<Ticket*> Session::getTickets() {

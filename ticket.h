@@ -8,20 +8,17 @@ class Session;
 class Ticket {
 private:
     int id;
-    int cost;
     Client* client;
     Seat* seat;
     Session* session;
 
 public:
     Ticket();
-    Ticket(int cost, Seat* seat, Session* session, Client* client = nullptr, int id = -1);
-    int getCost();
+    Ticket(Seat* seat, Session* session, Client* client = nullptr, int id = -1);
     int getId();
     Seat* getSeat();
     Session* getSession();
     Client* getClient();
-    void setCost(int cost);
     void setSeat(Seat* seat);
     void setSession(Session* session);
 };

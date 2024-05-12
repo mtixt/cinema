@@ -6,6 +6,7 @@
 #include "saveandload.h"
 #include "sessionspage.h"
 #include "sessionview.h"
+#include "sessionedit.h"
 #include "filmspage.h"
 #include "filmview.h"
 #include "filmedit.h"
@@ -65,6 +66,7 @@ private:
 
     SessionsPage* sessionsPage;
     SessionView* sessionView;
+    SessionEdit* sessionEdit;
 
     HallsPage* hallsPage;
     HallView*  hallView;

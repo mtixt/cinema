@@ -39,6 +39,7 @@ void Client::setTotalTicketPurchased(int totalTicketPurchased) {
 void Client::addTicket(Ticket* ticket) {
     this->tickets.push_back(ticket);
     totalTicketPurchased++;
+    this->autoDiscount();
 }
 
 void Client::clearTickets()
