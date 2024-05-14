@@ -106,63 +106,6 @@
       <property name="currentIndex">
        <number>2</number>
       </property>
-      <widget class="QWidget" name="actorsPage">
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QLabel" name="actorsLabel">
-          <property name="font">
-           <font>
-            <pointsize>20</pointsize>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Actors</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QScrollArea" name="actorsScrollArea">
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="actorsScrollAreaWidget">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>98</width>
-             <height>28</height>
-            </rect>
-           </property>
-          </widget>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="sessionsPage">
-       <layout class="QVBoxLayout" name="verticalLayout_4">
-        <item>
-         <widget class="QLabel" name="labelSessions">
-          <property name="font">
-           <font>
-            <pointsize>25</pointsize>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Sessions</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
       <widget class="QWidget" name="mainPage">
        <layout class="QGridLayout" name="gridLayout_2">
         <property name="sizeConstraint">
@@ -334,7 +277,6 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="filmsPage1"/>
      </widget>
     </item>
     <item>
