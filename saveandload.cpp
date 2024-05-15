@@ -637,9 +637,6 @@ Hall* SaveAndLoad::addHall(int rows, int seats, int id) {
 
 void SaveAndLoad::delFilm(int id)
 {
-    // TODO: удалить зависимости
-    //  - сеансы
-
     Film* film = this->getFilmById(id);
     auto f = std::find(this->films.begin(), this->films.end(), film);
 
@@ -651,9 +648,6 @@ void SaveAndLoad::delFilm(int id)
 
 void SaveAndLoad::delSession(int id)
 {
-    // TODO: удалить зависимости
-    //  - билеты
-
     Session* session = this->getSessionById(id);
     auto s = std::find(this->sessions.begin(), this->sessions.end(), session);
 
@@ -665,9 +659,6 @@ void SaveAndLoad::delSession(int id)
 
 void SaveAndLoad::delActor(int id)
 {
-    // TODO: удалить зависимости
-    //  - удалить из фильмов
-
     Actor* actor = this->getActorById(id);
     auto a = std::find(this->actors.begin(), this->actors.end(), actor);
 
@@ -701,9 +692,6 @@ void SaveAndLoad::delDirector(int id)
 
 void SaveAndLoad::delHall(int id)
 {
-    // TODO: удалить зависимости
-    //  - сеансы
-
     Hall* hall = this->getHallById(id);
     auto h = std::find(this->halls.begin(), this->halls.end(), hall);
 
